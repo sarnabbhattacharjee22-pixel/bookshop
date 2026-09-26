@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MemeForge | Massive Open Meme Platform</title>
+    
+    <!-- Meta Tags for SEO & Social -->
+    <meta name="description" content="Explore thousands of free, openly licensed meme templates. Create, edit, and download memes instantly with zero cost.">
+    <meta name="theme-color" content="#121212">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;700&family=Comic+Neue:wght@700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- Global Loading Overlay with Error Fallback -->
+    <div id="global-loader" class="loader-overlay">
+        <div id="loader-content-normal" class="loader-content" style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
+            <div class="spinner"></div>
+            <p>Initializing MemeForge Engine...</p>
+        </div>
+        <div id="loader-content-error" class="loader-content hidden" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; color: var(--danger-color);"></i>
+            <h3>Initialization Failed</h3>
+            <p id="loader-error-message" style="max-width: 300px; color: var(--text-secondary);">We couldn't connect to the core modules.</p>
+            <button id="btn-retry-init" class="btn btn-primary" style="margin-top: 1rem;">
+                <i class="fa-solid fa-rotate-right"></i> Retry Loading
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <!-- App Wrapper -->
+    <div id="app" class="app-container">
+        
+        <!-- Main Navigation -->
+        <nav id="main-nav" class="navbar">
+            <div class="nav-brand">
+                <i class="fa-solid fa-layer-group logo-icon"></i>
+                <span class="logo-text">MemeForge</span>
+            </div>
+            <ul class="nav-links">
+                <li><button class="nav-btn active" data-target="view-home"><i class="fa-solid fa-house"></i> <span>Home</span></button></li>
+                <li><button class="nav-btn" data-target="view-templates"><i class="fa-solid fa-compass"></i> <span>Discover</span></button></li>
+                <li><button class="nav-btn" data-target="view-editor"><i class="fa-solid fa-wand-magic-sparkles"></i> <span>Studio</span></button></li>
+                <li><button class="nav-btn" data-target="view-saved"><i class="fa-solid fa-folder-open"></i> <span>My Memes</span></button></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            
+            <!-- ===================== HOME VIEW ===================== -->
+            <section id="view-home" class="view active fade-in">
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <div class="hero-badge">Unlimited & Openly Licensed</div>
+                        <h1 class="hero-title">Forge the Internet's<br><span class="text-gradient">Next Masterpiece</span></h1>
+                        <p class="hero-subtitle">A massive, dynamically expanding library of thousands of Public Domain and CC0 templates. Zero cost. No limits. Pure creativity.</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary btn-large nav-route" data-target="view-editor">
+                                <i class="fa-solid fa-plus"></i> Open Studio
+                            </button>
+                            <button class="btn btn-secondary btn-large nav-route" data-target="view-templates">
+                                <i class="fa-solid fa-magnifying-glass"></i> Explore Library
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="glass-card hero-preview">
+                            <div class="preview-canvas-mock">
+                                <div class="mock-text top">LIMITLESS</div>
+                                <div class="mock-image"><i class="fa-solid fa-globe"></i></div>
+                                <div class="mock-text bottom">TEMPLATES</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-container">
+                    <div class="section-header">
+                        <h2>Featured & Trending</h2>
+                        <button class="btn btn-text nav-route" data-target="view-templates">Explore All <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                    <!-- Pre-rendered skeleton grid to prevent layout shift before API loads -->
+                    <div id="home-templates-grid" class="templates-grid grid-4">
+                        <div class="template-card skeleton"></div>
+                        <div class="template-card skeleton"></div>
+                        <div class="template-card skeleton"></div>
+                        <div class="template-card skeleton"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== MASSIVE TEMPLATE LIBRARY VIEW ===================== -->
+            <section id="view-templates" class="view fade-in">
+                <div class="view-header">
+                    <h2>🔥 Meme Library</h2>
+                    <p>Search thousands of legitimately reusable templates from external open-license networks.</p>
+                    
+                    <!-- Library Navigation Tabs -->
+                    <div class="template-tabs mt-15">
+                        <button class="tab-btn active" data-tab="library"><i class="fa-solid fa-globe"></i> Discover</button>
+                        <button class="tab-btn" data-tab="favorites"><i class="fa-solid fa-heart"></i> Favorites</button>
+                        <button class="tab-btn" data-tab="recent"><i class="fa-solid fa-clock-rotate-left"></i> Recently Used</button>
+                    </div>
+                </div>
+                
+                <!-- Powerful Search & Filter Toolbar -->
+                <div class="templates-toolbar glass-panel sticky-toolbar">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="template-search" placeholder="Search thousands of templates (e.g., Drake, confused, cat)...">
+                    </div>
+                    
+                    <div class="advanced-filters">
+                        <select id="filter-category" class="custom-select small-select">
+                            <option value="all">All Categories</option>
+                            <option value="trending">🔥 Trending</option>
+                            <option value="funny">😂 Funny</option>
+                            <option value="reaction">🤣 Reaction</option>
+                            <option value="shocked">😱 Shocked</option>
+                            <option value="confused">🤔 Confused</option>
+                            <option value="sad">😭 Sad</option>
+                            <option value="angry">😡 Angry</option>
+                            <option value="gaming">🎮 Gaming</option>
+                            <option value="programming">💻 Programming</option>
+                            <option value="animals">🐱 Animals</option>
+                        </select>
+                        <select id="filter-license" class="custom-select small-select">
+                            <option value="all">All Licenses</option>
+                            <option value="public-domain">Public Domain / CC0</option>
+                            <option value="commercial">Commercial Use Allowed</option>
+                            <option value="no-attribution">No Attribution Required</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- API Failure / Fallback Banner -->
+                <div id="template-api-status" class="api-status-banner hidden">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                    <span>Template network is currently unavailable. Displaying offline fallback library.</span>
+                    <button id="btn-retry-api" class="btn btn-outline small">Retry Connection</button>
+                </div>
+
+                <!-- Dynamic Infinite Grid -->
+                <div id="templates-main-grid" class="templates-grid grid-auto fill-space">
+                    <!-- Cards populated dynamically via Provider API -->
+                </div>
+
+                <!-- Infinite Scroll Intersection Sentinel -->
+                <div id="infinite-scroll-trigger" class="infinite-loader hidden">
+                    <div class="spinner small-spinner"></div>
+                    <span>Loading more templates...</span>
+                </div>
+
+                <!-- Empty States -->
+                <div id="templates-empty-state" class="empty-state hidden">
+                    <i class="fa-solid fa-satellite-dish"></i>
+                    <h3>No templates found</h3>
+                    <p>Try adjusting your search terms or license filters.</p>
+                </div>
+                
+                <div id="favorites-empty-state" class="empty-state hidden">
+                    <i class="fa-regular fa-heart"></i>
+                    <h3>No favorites yet</h3>
+                    <p>Click the heart icon on any template to build your personal collection.</p>
+                </div>
+
+                <div id="recent-empty-state" class="empty-state hidden">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <h3>No recent activity</h3>
+                    <p>Templates you open in the Studio will automatically appear here.</p>
+                </div>
+
+                <!-- Legal/Licensing Footer -->
+                <div class="licensing-footer-info glass-panel">
+                    <div class="flex-between">
+                        <div>
+                            <h4><i class="fa-solid fa-scale-balanced"></i> About Template Licensing</h4>
+                            <p class="text-muted small">MemeForge aggregates media from openly licensed sources (like Wikimedia and Openverse). Each template has specific license conditions. Always verify the source and license before commercial use.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== SAVED MEMES VIEW ===================== -->
+            <section id="view-saved" class="view fade-in">
+                <div class="view-header flex-between">
+                    <div>
+                        <h2>My Memes</h2>
+                        <p>Completed memes saved securely in your browser's local storage.</p>
+                    </div>
+                    <button id="clear-all-memes-btn" class="btn btn-danger btn-outline hidden">
+                        <i class="fa-solid fa-trash-can"></i> Clear All
+                    </button>
+                </div>
+
+                <div id="saved-memes-grid" class="templates-grid grid-auto fill-space">
+                    <!-- Populated by storage.js -->
+                </div>
+                
+                <div id="saved-empty-state" class="empty-state">
+                    <i class="fa-solid fa-box-open"></i>
+                    <h3>Your vault is empty</h3>
+                    <p>You haven't saved any creations yet. Time to forge something!</p>
+                    <button class="btn btn-primary nav-route" data-target="view-editor" style="margin-top: 1rem;">
+                        Enter Studio
+                    </button>
+                </div>
+            </section>
+
+            <!-- ===================== EDITOR VIEW (THE STUDIO) ===================== -->
+            <section id="view-editor" class="view editor-view">
+                
+                <!-- Editor Header -->
+                <header class="editor-header glass-panel">
+                    <div class="header-left">
+                        <button class="icon-btn nav-route" data-target="view-templates" aria-label="Back to Library">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <div class="editor-title">
+                            <span id="current-template-name">Blank Canvas</span>
+                        </div>
+                    </div>
+                    
+                    <div class="header-center history-controls">
+                        <button id="btn-undo" class="icon-btn" aria-label="Undo (Ctrl+Z)" disabled>
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                        <button id="btn-redo" class="icon-btn" aria-label="Redo (Ctrl+Y)" disabled>
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                        <button id="btn-reset" class="icon-btn text-danger" aria-label="Clear Canvas">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+
+                    <div class="header-right action-controls">
+                        <button id="btn-save-local" class="btn btn-secondary">
+                            <i class="fa-solid fa-floppy-disk"></i> <span class="hide-mobile">Save to Vault</span>
+                        </button>
+                        <button id="btn-download" class="btn btn-primary">
+                            <i class="fa-solid fa-download"></i> <span class="hide-mobile">Export Meme</span>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Editor Workspace Layout -->
+                <div class="editor-layout">
+                    
+                    <!-- Left Toolbar (Tools) -->
+                    <aside class="editor-sidebar tools-panel glass-panel">
+                        <div class="tool-group">
+                            <button id="tool-text" class="tool-btn active">
+                                <i class="fa-solid fa-font"></i> <span>Text</span>
+                            </button>
+                            <button id="tool-image" class="tool-btn">
+                                <i class="fa-regular fa-image"></i> <span>Image</span>
+                                <input type="file" id="upload-image-input" accept="image/png, image/jpeg, image/jpg, image/webp" hidden>
+                            </button>
+                            <button id="tool-stickers" class="tool-btn">
+                                <i class="fa-regular fa-face-smile"></i> <span>Stickers</span>
+                            </button>
+                            <button id="tool-canvas" class="tool-btn">
+                                <i class="fa-solid fa-crop-simple"></i> <span>Canvas</span>
+                            </button>
+                        </div>
+                        <div class="tool-group bottom-group">
+                            <button id="tool-layers" class="tool-btn">
+                                <i class="fa-solid fa-layer-group"></i> <span>Layers</span>
+                            </button>
+                        </div>
+                    </aside>
+
+                    <!-- Center Canvas Area -->
+                    <main class="editor-workspace">
+                        <div class="canvas-wrapper-outer">
+                            <div id="canvas-container" class="canvas-container shadow-drop">
+                                <canvas id="meme-canvas"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="zoom-controls glass-panel">
+                            <button id="btn-zoom-out" class="icon-btn small"><i class="fa-solid fa-minus"></i></button>
+                            <span id="zoom-level">100%</span>
+                            <button id="btn-zoom-in" class="icon-btn small"><i class="fa-solid fa-plus"></i></button>
+                            <button id="btn-zoom-fit" class="icon-btn small"><i class="fa-solid fa-expand"></i></button>
+                        </div>
+                    </main>
+
+                    <!-- Right Panel (Properties & Settings) -->
+                    <aside id="properties-panel" class="editor-sidebar properties-panel glass-panel">
+                        
+                        <!-- TEXT PROPERTIES -->
+                        <div id="panel-text" class="property-section active fade-in">
+                            <h3>Text Settings</h3>
+                            <button id="btn-add-text" class="btn btn-outline w-100 mb-15">
+                                <i class="fa-solid fa-plus"></i> Add Text Box
+                            </button>
+                            
+                            <div id="text-edit-controls" class="control-group disabled-overlay">
+                                <div class="form-group">
+                                    <label>Edit Text</label>
+                                    <textarea id="prop-text-value" rows="2" placeholder="Select a text layer..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Font Family</label>
+                                    <select id="prop-font-family" class="custom-select">
+                                        <option value="Impact" style="font-family: Impact;">Impact (Classic Meme)</option>
+                                        <option value="'Inter', sans-serif" style="font-family: 'Inter';">Inter (Clean)</option>
+                                        <option value="'Oswald', sans-serif" style="font-family: 'Oswald';">Oswald (Bold)</option>
+                                        <option value="'Montserrat', sans-serif" style="font-family: 'Montserrat';">Montserrat</option>
+                                        <option value="'Comic Neue', cursive" style="font-family: 'Comic Neue';">Comic (Derp)</option>
+                                        <option value="Arial, sans-serif">Arial</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group half">
+                                        <label>Size</label>
+                                        <input type="number" id="prop-font-size" value="40" min="10" max="300">
+                                    </div>
+                                    <div class="form-group half">
+                                        <label>Align</label>
+                                        <div class="btn-group">
+                                            <button class="icon-btn prop-align" data-align="left"><i class="fa-solid fa-align-left"></i></button>
+                                            <button class="icon-btn prop-align active" data-align="center"><i class="fa-solid fa-align-center"></i></button>
+                                            <button class="icon-btn prop-align" data-align="right"><i class="fa-solid fa-align-right"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row mt-10">
+                                    <div class="btn-group w-100">
+                                        <button id="prop-bold" class="icon-btn flex-1"><i class="fa-solid fa-bold"></i></button>
+                                        <button id="prop-italic" class="icon-btn flex-1"><i class="fa-solid fa-italic"></i></button>
+                                        <button id="prop-uppercase" class="icon-btn flex-1"><i class="fa-solid fa-font"></i></button>
+                                    </div>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="form-row color-row">
+                                    <div class="form-group flex-1">
+                                        <label>Text Color</label>
+                                        <div class="color-picker-wrapper">
+                                            <input type="color" id="prop-fill-color" value="#ffffff">
+                                            <span class="color-hex" id="hex-fill-color">#FFFFFF</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Stroke</label>
+                                        <div class="color-picker-wrapper">
+                                            <input type="color" id="prop-stroke-color" value="#000000">
+                                            <span class="color-hex" id="hex-stroke-color">#000000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-10">
+                                    <div class="flex-between">
+                                        <label>Stroke Width</label>
+                                        <span id="val-stroke-width" class="range-val">4px</span>
+                                    </div>
+                                    <input type="range" id="prop-stroke-width" min="0" max="20" value="4" class="custom-range">
+                                </div>
+                                <div class="divider"></div>
+                                <div class="action-row">
+                                    <button id="btn-duplicate-text" class="btn btn-outline small"><i class="fa-solid fa-copy"></i> Clone</button>
+                                    <button id="btn-delete-text" class="btn btn-danger small"><i class="fa-solid fa-trash"></i> Delete</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STICKERS PANEL -->
+                        <div id="panel-stickers" class="property-section hidden fade-in">
+                            <h3>Stickers & Emojis</h3>
+                            <div class="stickers-categories">
+                                <button class="pill-btn small active" data-cat="emojis">Emojis</button>
+                                <button class="pill-btn small" data-cat="props">Props</button>
+                                <button class="pill-btn small" data-cat="rage">Text Faces</button>
+                            </div>
+                            <div id="stickers-grid" class="stickers-grid custom-scrollbar"></div>
+                        </div>
+
+                        <!-- CANVAS SETTINGS PANEL -->
+                        <div id="panel-canvas" class="property-section hidden fade-in">
+                            <h3>Canvas Options</h3>
+                            <div class="form-group">
+                                <label>Background Fill</label>
+                                <div class="color-picker-wrapper w-100">
+                                    <input type="color" id="prop-bg-color" value="#ffffff">
+                                    <span class="color-hex w-100 text-center" id="hex-bg-color">#FFFFFF</span>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <label>Ratio Presets</label>
+                            <div class="ratio-grid">
+                                <button class="ratio-btn active" data-ratio="original">
+                                    <div class="ratio-box original"></div>
+                                    <span>Match Image</span>
+                                </button>
+                                <button class="ratio-btn" data-ratio="1:1">
+                                    <div class="ratio-box square"></div>
+                                    <span>1:1 Square</span>
+                                </button>
+                                <button class="ratio-btn" data-ratio="16:9">
+                                    <div class="ratio-box landscape"></div>
+                                    <span>16:9 Wide</span>
+                                </button>
+                                <button class="ratio-btn" data-ratio="9:16">
+                                    <div class="ratio-box story"></div>
+                                    <span>9:16 Story</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- LAYERS PANEL -->
+                        <div id="panel-layers" class="property-section hidden fade-in">
+                            <div class="flex-between">
+                                <h3>Layers</h3>
+                                <div class="layer-actions">
+                                    <button id="btn-layer-up" class="icon-btn small" aria-label="Bring Forward"><i class="fa-solid fa-arrow-up"></i></button>
+                                    <button id="btn-layer-down" class="icon-btn small" aria-label="Send Backward"><i class="fa-solid fa-arrow-down"></i></button>
+                                </div>
+                            </div>
+                            <p class="text-muted small mb-10">Select an item to edit or delete.</p>
+                            <ul id="layers-list" class="layers-list custom-scrollbar"></ul>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ===================== MODALS ===================== -->
+    
+    <!-- Template License & Metadata Modal -->
+    <div id="modal-template-info" class="modal-backdrop hidden">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3>Template Metadata</h3>
+                <button class="icon-btn modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="template-detail-row">
+                    <span class="detail-label">Title:</span>
+                    <span id="info-modal-title" class="detail-value font-bold">...</span>
+                </div>
+                <div class="template-detail-row">
+                    <span class="detail-label">Creator:</span>
+                    <span id="info-modal-creator" class="detail-value">...</span>
+                </div>
+                <div class="template-detail-row">
+                    <span class="detail-label">Provider:</span>
+                    <span id="info-modal-provider" class="detail-value">...</span>
+                </div>
+                <div class="template-detail-row">
+                    <span class="detail-label">License:</span>
+                    <span id="info-modal-license-badge" class="license-badge detail-badge">...</span>
+                </div>
+                <div class="divider"></div>
+                <div class="license-permissions">
+                    <div class="perm-item">
+                        <i id="icon-comm-use" class="fa-solid fa-circle-check text-success"></i>
+                        <span>Commercial Use: <strong id="info-modal-comm">...</strong></span>
+                    </div>
+                    <div class="perm-item">
+                        <i id="icon-mod-use" class="fa-solid fa-circle-check text-success"></i>
+                        <span>Modifications: <strong id="info-modal-mod">Allowed</strong></span>
+                    </div>
+                    <div class="perm-item">
+                        <i id="icon-attr-use" class="fa-solid fa-circle-info text-primary"></i>
+                        <span>Attribution: <strong id="info-modal-attr">...</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="btn-modal-source" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Original Source
+                </a>
+                <button id="btn-modal-use-template" class="btn btn-primary flex-1">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Open in Studio
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export / Download Modal -->
+    <div id="modal-export" class="modal-backdrop hidden">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3>Export Masterpiece</h3>
+                <button class="icon-btn modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="export-preview">
+                    <img id="export-preview-img" src="" alt="Meme Preview">
+                </div>
+                <div class="form-group mt-15">
+                    <label>File Name</label>
+                    <input type="text" id="export-filename" value="memeforge-export">
+                </div>
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Format</label>
+                        <select id="export-format" class="custom-select">
+                            <option value="png">PNG (Lossless, High Quality)</option>
+                            <option value="jpeg">JPG (Smaller File Size)</option>
+                            <option value="webp">WEBP (Modern Web)</option>
+                        </select>
+                    </div>
+                    <div class="form-group half">
+                        <label>Quality</label>
+                        <select id="export-quality" class="custom-select">
+                            <option value="1">100% (Maximum)</option>
+                            <option value="0.8">80% (Optimized)</option>
+                            <option value="0.6">60% (Low Size)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-btn-copy" class="btn btn-secondary"><i class="fa-regular fa-clipboard"></i> Copy Image</button>
+                <button id="modal-btn-download-confirm" class="btn btn-primary flex-1"><i class="fa-solid fa-download"></i> Save to Device</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+
+    <!-- Core App Architecture Scripts (Must be in this order) -->
+    <script src="data/memes-local.js"></script> <!-- Local fallback data -->
+    <script src="js/storage.js"></script>       <!-- localStorage wrapper (Favs, Recents, Saved) -->
+    <script src="js/providers.js"></script>     <!-- The new TemplateProvider API layer -->
+    <script src="js/canvas.js"></script>        <!-- Fabric.js rendering engine -->
+    <script src="js/meme-editor.js"></script>   <!-- Studio properties panel logic -->
+    <script src="js/templates.js"></script>     <!-- Infinite scroll, search, and library UI -->
+    <script src="js/download.js"></script>      <!-- Export modal and clipboard logic -->
+    <script src="js/ui.js"></script>            <!-- Global state, routing, and toasts -->
+    <script src="js/app.js"></script>           <!-- Bootstrapper & Keyboard handlers -->
+</body>
+</html>
