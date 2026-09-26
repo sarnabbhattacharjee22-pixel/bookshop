@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Login to your NovaBooks account to track orders, manage your wishlist, and checkout faster.">
+    <title>Login | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Page Specific Styles for Auth Pages -->
+    <style>
+        .auth-main {
+            background-color: var(--color-bg-light);
+            min-height: calc(100vh - 350px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .auth-card {
+            background-color: var(--color-white);
+            width: 100%;
+            max-width: 480px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 40px;
+            border: 1px solid var(--color-border);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+        }
+
+        .auth-subtitle {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Social Login Buttons */
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .btn-social {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background-color: var(--color-white);
+            color: var(--color-text-main);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-social:hover {
+            background-color: var(--color-bg-light);
+            border-color: var(--color-text-muted);
+        }
+
+        .btn-social img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn-social .fa-facebook {
+            color: #1877F2;
+            font-size: 1.2rem;
+        }
+
+        /* Divider */
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .auth-divider span {
+            padding: 0 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-text-main);
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+            background-color: #fafafa;
+        }
+
+        .form-control:focus {
+            border-color: var(--color-secondary);
+            background-color: var(--color-white);
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color var(--transition-fast);
+        }
+
+        .password-toggle:hover {
+            color: var(--color-primary);
+        }
+
+        /* Additional Form Links */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--color-text-main);
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--color-secondary);
+        }
+
+        .forgot-link {
+            color: var(--color-primary);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .forgot-link:hover {
+            color: var(--color-secondary);
+        }
+
+        /* Footer switch link */
+        .auth-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.95rem;
+            color: var(--color-text-main);
+        }
+
+        .auth-footer a {
+            color: var(--color-secondary);
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 576px) {
+            .auth-card {
+                padding: 30px 20px;
+                border-radius: var(--radius-md);
+            }
+            .auth-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Consistent) -->
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-solid fa-user" style="color: var(--color-secondary);"></i>
+                    <span class="action-label" style="color: var(--color-secondary); font-weight: 600;">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">0</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">2</span>
+                    <span class="cart-total" id="headerCartTotal">৳960.00</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="books.html">Books</a></li>
+                    <li class="nav-item"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                </ul>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main class="auth-main">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Welcome Back</h1>
+                <p class="auth-subtitle">Login to access your orders, wishlist, and recommendations.</p>
+            </div>
+
+            <!-- Social Login -->
+            <div class="social-login">
+                <button type="button" class="btn-social">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="Google">
+                    Continue with Google
+                </button>
+                <button type="button" class="btn-social">
+                    <i class="fa-brands fa-facebook"></i>
+                    Continue with Facebook
+                </button>
+            </div>
+
+            <div class="auth-divider">
+                <span>Or login with email</span>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                    <i class="fa-regular fa-eye password-toggle" id="togglePassword" title="Show/Hide Password"></i>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe">
+                        Remember me
+                    </label>
+                    <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="loginBtn">
+                    Login securely <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Don't have an account? <a href="register.html">Sign up here</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col brand-col">
+                        <a href="index.html" class="footer-logo">
+                            <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                            <span class="logo-text">NovaBooks</span>
+                        </a>
+                        <p class="footer-desc">Your ultimate destination for books in Bangladesh.</p>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh</li>
+                            <li><i class="fa-solid fa-phone"></i> +880 1712-345678</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 NovaBooks. All rights reserved.</p>
+                    
+                    <!-- UPDATED FIXED PAYMENT LOGOS -->
+                    <div class="payment-methods">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/BKash_Logo.svg/2560px-BKash_Logo.svg.png" alt="bKash" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="MasterCard" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="footer-payment-logo">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Password Visibility Toggle Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+
+            if(togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', function (e) {
+                    // Toggle the type attribute
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    
+                    // Toggle the eye / eye-slash icon
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            }
+        });
+
+        // Mock Login Handler
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent page reload
+            
+            const btn = document.getElementById('loginBtn');
+            const originalText = btn.innerHTML;
+            
+            // Simulate processing state
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...';
+            btn.disabled = true;
+            btn.style.opacity = '0.8';
+
+            // Simulate network delay and redirect
+            setTimeout(() => {
+                // For this prototype, automatically direct to profile/dashboard page
+                // In a real app, you would validate credentials against a backend
+                window.location.href = 'profile.html';
+            }, 1200);
+        }
+    </script>
+</body>
+</html>

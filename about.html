@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Learn about NovaBooks, our story, our mission, and the team bringing the best books to Bangladesh.">
+    <title>About Us | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Page Specific Styles for About Page -->
+    <style>
+        .page-header {
+            background-color: var(--color-bg-light);
+            padding: 50px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 60px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb a {
+            color: var(--color-primary);
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--color-primary);
+        }
+
+        .page-description {
+            color: var(--color-text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Our Story Section */
+        .story-layout {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        .story-content {
+            flex: 1;
+        }
+
+        .story-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--color-primary);
+        }
+
+        .story-content p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--color-text-main);
+            margin-bottom: 20px;
+        }
+        
+        .story-content .highlight-text {
+            font-size: 1.2rem;
+            font-family: var(--font-heading);
+            color: var(--color-secondary);
+            font-style: italic;
+            border-left: 4px solid var(--color-secondary);
+            padding-left: 20px;
+            margin: 30px 0;
+        }
+
+        .story-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .story-image img {
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .story-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--color-secondary);
+            border-radius: var(--radius-lg);
+            z-index: -1;
+        }
+
+        /* Stats Section */
+        .stats-wrapper {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            padding: 60px 0;
+            border-radius: var(--radius-lg);
+            margin-bottom: 80px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-box i {
+            font-size: 2.5rem;
+            color: var(--color-secondary);
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Core Values */
+        .values-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .values-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .value-card {
+            background-color: var(--color-bg-light);
+            padding: 40px 30px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            transition: all var(--transition-fast);
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-secondary);
+        }
+
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--color-white);
+            color: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .value-card:hover .value-icon {
+            background-color: var(--color-secondary);
+            color: var(--color-white);
+        }
+
+        .value-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-family: var(--font-body);
+        }
+
+        .value-desc {
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        /* Team Section */
+        .team-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .team-card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: all var(--transition-fast);
+        }
+
+        .team-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .team-photo {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .team-info {
+            padding: 20px;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            margin-bottom: 5px;
+        }
+
+        .team-role {
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .story-layout {
+                flex-direction: column;
+                text-align: center;
+            }
+            .story-image::before {
+                display: none; /* Remove offset border on mobile for cleaner look */
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+            .story-content h2 {
+                font-size: 2rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Consistent) -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span class="top-bar-text"><i class="fa-solid fa-truck-fast"></i> Free shipping inside Bangladesh on orders over ৳1500!</span>
+                <div class="top-bar-links">
+                    <a href="faq.html">Help Center</a>
+                    <a href="orders.html">Track Order</a>
+                    <div class="currency-selector">
+                        <span>BDT (৳)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="action-label">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">0</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">0</span>
+                    <span class="cart-total" id="headerCartTotal">৳0.00</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="books.html">Books</a></li>
+                    <li class="nav-item"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                    <li class="nav-item active"><a href="about.html">About</a></li>
+                    <li class="nav-item"><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span style="color: var(--color-primary); font-weight: 500;">About Us</span>
+                </div>
+                <h1 class="page-title">About NovaBooks</h1>
+                <p class="page-description">Connecting readers in Bangladesh with the world's best stories, ideas, and knowledge.</p>
+            </div>
+        </section>
+
+        <!-- Our Story -->
+        <section class="section pt-0">
+            <div class="container">
+                <div class="story-layout">
+                    <div class="story-content">
+                        <h2>Our Story</h2>
+                        <p>Founded in 2024, NovaBooks started with a simple yet powerful idea: to make reading accessible, affordable, and enjoyable for everyone in Bangladesh. We noticed how difficult it was for readers to find a reliable online bookstore that offered both local literature and international bestsellers with seamless delivery.</p>
+                        <div class="highlight-text">
+                            "A reader lives a thousand lives before he dies. The man who never reads lives only one."
+                        </div>
+                        <p>What began as a small inventory operating out of a single room in Dhaka has now grown into one of the most trusted e-commerce platforms for book lovers nationwide. We are deeply committed to fostering a reading culture by offering an extensive catalog that ranges from fiction and academic textbooks to self-development and children's books.</p>
+                        <p>Our journey is driven by our passion for books and our dedication to customer satisfaction. We don't just sell books; we deliver stories, knowledge, and inspiration right to your doorstep.</p>
+                    </div>
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80" alt="NovaBooks Library Interior">
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-wrapper">
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <i class="fa-solid fa-book-open-reader"></i>
+                            <div class="stat-number">10k+</div>
+                            <div class="stat-label">Books Available</div>
+                        </div>
+                        <div class="stat-box">
+                            <i class="fa-solid fa-users"></i>
+                            <div class="stat-number">5k+</div>
+                            <div class="stat-label">Happy Readers</div>
+                        </div>
+                        <div class="stat-box">
+                            <i class="fa-solid fa-truck-fast"></i>
+                            <div class="stat-number">64</div>
+                            <div class="stat-label">Districts Covered</div>
+                        </div>
+                        <div class="stat-box">
+                            <i class="fa-solid fa-star"></i>
+                            <div class="stat-number">4.9</div>
+                            <div class="stat-label">Average Rating</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Core Values -->
+                <div class="values-section">
+                    <h2>Our Core Values</h2>
+                    <div class="values-grid">
+                        <div class="value-card">
+                            <div class="value-icon"><i class="fa-solid fa-gem"></i></div>
+                            <h3 class="value-title">Quality Assured</h3>
+                            <p class="value-desc">We guarantee original, high-quality prints. Every book goes through a strict quality check before being shipped to ensure you receive perfect copies.</p>
+                        </div>
+                        <div class="value-card">
+                            <div class="value-icon"><i class="fa-solid fa-bolt"></i></div>
+                            <h3 class="value-title">Fast & Reliable</h3>
+                            <p class="value-desc">We know you can't wait to start reading. Our optimized logistics network ensures lightning-fast delivery across all 64 districts of Bangladesh.</p>
+                        </div>
+                        <div class="value-card">
+                            <div class="value-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                            <h3 class="value-title">Customer First</h3>
+                            <p class="value-desc">Your satisfaction is our priority. From easy returns to 24/7 dedicated customer support, we are always here to help you with a smile.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Section -->
+                <div class="team-section">
+                    <h2>Meet The Team</h2>
+                    <p style="color: var(--color-text-muted); max-width: 600px; margin: 0 auto;">The passionate book lovers working behind the scenes to bring you the best reading experience.</p>
+                    
+                    <div class="team-grid">
+                        <!-- Team Member 1 -->
+                        <div class="team-card">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80" alt="CEO" class="team-photo">
+                            <div class="team-info">
+                                <h3 class="team-name">Arifur Rahman</h3>
+                                <div class="team-role">Founder & CEO</div>
+                            </div>
+                        </div>
+                        <!-- Team Member 2 -->
+                        <div class="team-card">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Head of Operations" class="team-photo">
+                            <div class="team-info">
+                                <h3 class="team-name">Sadia Islam</h3>
+                                <div class="team-role">Head of Operations</div>
+                            </div>
+                        </div>
+                        <!-- Team Member 3 -->
+                        <div class="team-card">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80" alt="Lead Developer" class="team-photo">
+                            <div class="team-info">
+                                <h3 class="team-name">Sarnab Bhattacharjee</h3>
+                                <div class="team-role">Lead Developer</div>
+                            </div>
+                        </div>
+                        <!-- Team Member 4 -->
+                        <div class="team-card">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80" alt="Customer Success" class="team-photo">
+                            <div class="team-info">
+                                <h3 class="team-name">Nusrat Jahan</h3>
+                                <div class="team-role">Customer Success</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col brand-col">
+                        <a href="index.html" class="footer-logo">
+                            <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                            <span class="logo-text">NovaBooks</span>
+                        </a>
+                        <p class="footer-desc">Your ultimate destination for books in Bangladesh. We provide a vast collection of fiction, non-fiction, academic, and professional books at the best prices.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="deals.html">Special Offers</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Top Categories</h3>
+                        <ul>
+                            <li><a href="books.html?cat=fiction">Fiction</a></li>
+                            <li><a href="books.html?cat=history">History</a></li>
+                            <li><a href="books.html?cat=academic">Academic</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 123 Book Avenue, Dhanmondi, Dhaka</li>
+                            <li><i class="fa-solid fa-phone"></i> +880 1712-345678</li>
+                            <li><i class="fa-solid fa-envelope"></i> support@novabooks.com.bd</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 NovaBooks. All rights reserved.</p>
+                    
+                    <!-- CORRECTED FIXED PAYMENT LOGOS -->
+                    <div class="payment-methods">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/BKash_Logo.svg/2560px-BKash_Logo.svg.png" alt="bKash" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="MasterCard" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="footer-payment-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Simple Number Counter Animation for Stats
+        document.addEventListener('DOMContentLoaded', () => {
+            const stats = document.querySelectorAll('.stat-number');
+            
+            // Intersection Observer to trigger animation when scrolled into view
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // We do a simple visual effect here for the prototype
+                        entry.target.style.opacity = 0;
+                        setTimeout(() => {
+                            entry.target.style.transition = 'opacity 1s ease-in-out';
+                            entry.target.style.opacity = 1;
+                        }, 200);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            stats.forEach(stat => observer.observe(stat));
+        });
+    </script>
+</body>
+</html>

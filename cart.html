@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Review your shopping cart at NovaBooks.">
+    <title>Shopping Cart | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Page Specific Styles for Cart -->
+    <style>
+        /* Page Header */
+        .page-header {
+            background-color: var(--color-bg-light);
+            padding: 40px 0;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Cart Layout */
+        .cart-layout {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 80px;
+            align-items: flex-start;
+        }
+
+        .cart-items-section {
+            flex: 1;
+        }
+
+        /* Cart Table (Desktop) */
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cart-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid var(--color-border);
+            color: var(--color-text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .cart-table td {
+            padding: 25px 15px;
+            border-bottom: 1px solid var(--color-border);
+            vertical-align: middle;
+        }
+
+        .cart-product {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-product-img {
+            width: 80px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+        }
+
+        .cart-product-info h4 {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .cart-product-info h4 a {
+            color: var(--color-primary);
+        }
+
+        .cart-product-author {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        .cart-price {
+            font-weight: 600;
+            color: var(--color-text-main);
+            font-size: 1.1rem;
+        }
+
+        .cart-subtotal {
+            font-weight: 700;
+            color: var(--color-primary);
+            font-size: 1.1rem;
+        }
+
+        /* Quantity Controls */
+        .qty-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            width: fit-content;
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 36px;
+            background-color: var(--color-bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color var(--transition-fast);
+        }
+
+        .qty-btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        .qty-input {
+            width: 40px;
+            height: 36px;
+            text-align: center;
+            border: none;
+            border-left: 1px solid var(--color-border);
+            border-right: 1px solid var(--color-border);
+            font-weight: 600;
+        }
+
+        .qty-input::-webkit-inner-spin-button, 
+        .qty-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Remove Button */
+        .btn-remove {
+            color: var(--color-danger);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(229, 62, 62, 0.1);
+            transition: all var(--transition-fast);
+        }
+
+        .btn-remove:hover {
+            background-color: var(--color-danger);
+            color: var(--color-white);
+        }
+
+        /* Cart Actions */
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .coupon-box {
+            display: flex;
+            max-width: 350px;
+            width: 100%;
+        }
+
+        .coupon-box input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+        }
+
+        .coupon-box button {
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+
+        /* Order Summary (Sidebar) */
+        .order-summary {
+            width: 380px;
+            background-color: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-title {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--color-text-main);
+        }
+
+        .summary-row.total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed var(--color-border);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .shipping-options {
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+
+        .shipping-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            cursor: pointer;
+        }
+
+        .shipping-label input {
+            margin-right: 10px;
+            accent-color: var(--color-secondary);
+        }
+
+        /* Empty Cart State */
+        .empty-cart-state {
+            display: none; /* Hidden by default */
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-cart-icon {
+            font-size: 5rem;
+            color: var(--color-border);
+            margin-bottom: 20px;
+        }
+
+        .empty-cart-state h2 {
+            margin-bottom: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .cart-layout {
+                flex-direction: column;
+            }
+            .order-summary {
+                width: 100%;
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Transform table into stacked cards for mobile */
+            .cart-table thead {
+                display: none; /* Hide table headers */
+            }
+            .cart-table, .cart-table tbody, .cart-table tr, .cart-table td {
+                display: block;
+                width: 100%;
+            }
+            .cart-table tr {
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                margin-bottom: 20px;
+                padding: 15px;
+                position: relative;
+            }
+            .cart-table td {
+                border: none;
+                padding: 10px 0;
+            }
+            
+            /* Reorganize cells */
+            .td-product {
+                padding-right: 40px !important; /* Space for absolute remove button */
+            }
+            .td-price {
+                display: none; /* Hide unit price to save space */
+            }
+            .td-qty {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-top: 1px dashed var(--color-border) !important;
+                padding-top: 15px !important;
+                margin-top: 10px;
+            }
+            .td-qty::before {
+                content: 'Quantity:';
+                font-weight: 500;
+            }
+            .td-subtotal {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 1.2rem;
+            }
+            .td-subtotal::before {
+                content: 'Subtotal:';
+                font-size: 1rem;
+                font-weight: 500;
+                color: var(--color-text-main);
+            }
+            .td-remove {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                padding: 0 !important;
+            }
+
+            .cart-actions {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+            }
+            .coupon-box {
+                max-width: 100%;
+            }
+            .cart-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Consistent) -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span class="top-bar-text"><i class="fa-solid fa-truck-fast"></i> Free shipping inside Bangladesh on orders over ৳1500!</span>
+                <div class="top-bar-links">
+                    <a href="contact.html">Help Center</a>
+                    <a href="orders.html">Track Order</a>
+                    <div class="currency-selector">
+                        <span>BDT (৳)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="action-label">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">0</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping" style="color: var(--color-secondary);"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">2</span>
+                    <span class="cart-total" id="headerCartTotal">৳960.00</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="books.html">Books</a></li>
+                    <li class="nav-item"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                </ul>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1 class="page-title">Shopping Cart</h1>
+                <p style="color: var(--color-text-muted);">Review your items and proceed to checkout.</p>
+            </div>
+        </section>
+
+        <!-- Cart Content -->
+        <section class="section pt-0">
+            <div class="container">
+                
+                <!-- Active Cart View -->
+                <div class="cart-layout" id="cartLayout">
+                    
+                    <!-- Left: Items -->
+                    <div class="cart-items-section">
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="cartTableBody">
+                                <!-- Cart Item 1 -->
+                                <tr class="cart-item" data-price="510">
+                                    <td class="td-product">
+                                        <div class="cart-product">
+                                            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=150&q=80" alt="The Silent Patient" class="cart-product-img">
+                                            <div class="cart-product-info">
+                                                <h4><a href="book-details.html?id=1">The Silent Patient</a></h4>
+                                                <span class="cart-product-author">Alex Michaelides</span>
+                                                <span style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 5px; display: inline-block;">Format: Hardcover</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="td-price">
+                                        <span class="cart-price">৳ 510</span>
+                                    </td>
+                                    <td class="td-qty">
+                                        <div class="qty-wrapper">
+                                            <button class="qty-btn minus-btn" aria-label="Decrease quantity"><i class="fa-solid fa-minus"></i></button>
+                                            <input type="number" class="qty-input item-qty" value="1" min="1" max="10">
+                                            <button class="qty-btn plus-btn" aria-label="Increase quantity"><i class="fa-solid fa-plus"></i></button>
+                                        </div>
+                                    </td>
+                                    <td class="td-subtotal">
+                                        <span class="cart-subtotal item-subtotal-text">৳ 510</span>
+                                    </td>
+                                    <td class="td-remove">
+                                        <button class="btn-remove remove-item-btn" aria-label="Remove item" title="Remove Item"><i class="fa-solid fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+
+                                <!-- Cart Item 2 -->
+                                <tr class="cart-item" data-price="450">
+                                    <td class="td-product">
+                                        <div class="cart-product">
+                                            <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=150&q=80" alt="Atomic Habits" class="cart-product-img">
+                                            <div class="cart-product-info">
+                                                <h4><a href="book-details.html?id=2">Atomic Habits</a></h4>
+                                                <span class="cart-product-author">James Clear</span>
+                                                <span style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 5px; display: inline-block;">Format: Paperback</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="td-price">
+                                        <span class="cart-price">৳ 450</span>
+                                    </td>
+                                    <td class="td-qty">
+                                        <div class="qty-wrapper">
+                                            <button class="qty-btn minus-btn" aria-label="Decrease quantity"><i class="fa-solid fa-minus"></i></button>
+                                            <input type="number" class="qty-input item-qty" value="1" min="1" max="10">
+                                            <button class="qty-btn plus-btn" aria-label="Increase quantity"><i class="fa-solid fa-plus"></i></button>
+                                        </div>
+                                    </td>
+                                    <td class="td-subtotal">
+                                        <span class="cart-subtotal item-subtotal-text">৳ 450</span>
+                                    </td>
+                                    <td class="td-remove">
+                                        <button class="btn-remove remove-item-btn" aria-label="Remove item" title="Remove Item"><i class="fa-solid fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="cart-actions">
+                            <form class="coupon-box" onsubmit="event.preventDefault(); applyCoupon();">
+                                <input type="text" placeholder="Coupon code" id="couponInput">
+                                <button type="submit" class="btn btn-secondary">Apply</button>
+                            </form>
+                            <button class="btn btn-outline-white" style="border-color: var(--color-border); color: var(--color-primary);" onclick="window.location.href='books.html'">
+                                <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Order Summary -->
+                    <div class="order-summary">
+                        <h3 class="summary-title">Order Summary</h3>
+                        
+                        <div class="summary-row">
+                            <span>Items Subtotal:</span>
+                            <span id="summaryItemsTotal" style="font-weight: 600;">৳ 960</span>
+                        </div>
+                        <div class="summary-row text-warning" id="discountRow" style="display: none;">
+                            <span>Discount:</span>
+                            <span id="summaryDiscount">-৳ 0</span>
+                        </div>
+                        
+                        <hr style="border: none; border-top: 1px solid var(--color-border); margin: 20px 0;">
+                        
+                        <div style="margin-bottom: 15px; font-weight: 600; font-family: var(--font-body);">Shipping Method</div>
+                        <div class="shipping-options">
+                            <label class="shipping-label">
+                                <div>
+                                    <input type="radio" name="shipping" value="60" checked onchange="calculateTotals()"> Inside Dhaka (2-3 Days)
+                                </div>
+                                <span>৳ 60</span>
+                            </label>
+                            <label class="shipping-label">
+                                <div>
+                                    <input type="radio" name="shipping" value="120" onchange="calculateTotals()"> Outside Dhaka (3-5 Days)
+                                </div>
+                                <span>৳ 120</span>
+                            </label>
+                            <label class="shipping-label">
+                                <div>
+                                    <input type="radio" name="shipping" value="0" id="freeShippingRadio" disabled> Free Shipping (Orders > ৳1500)
+                                </div>
+                                <span>৳ 0</span>
+                            </label>
+                        </div>
+
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="summaryGrandTotal">৳ 1,020</span>
+                        </div>
+
+                        <a href="checkout.html" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 20px;">
+                            Proceed to Checkout <i class="fa-solid fa-lock" style="font-size: 0.9em; margin-left: 5px;"></i>
+                        </a>
+                        
+                        <div style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--color-text-muted);">
+                            <i class="fa-solid fa-shield-halved"></i> Secure checkout with SSL encryption
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty Cart State -->
+                <div class="empty-cart-state" id="emptyCartState">
+                    <div class="empty-cart-icon">
+                        <i class="fa-solid fa-cart-arrow-down"></i>
+                    </div>
+                    <h2>Your cart is currently empty.</h2>
+                    <p style="color: var(--color-text-muted); margin-bottom: 30px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                        Before proceed to checkout you must add some products to your shopping cart. You will find a lot of interesting books on our "Books" page.
+                    </p>
+                    <a href="books.html" class="btn btn-primary btn-lg">Return to Shop</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col brand-col">
+                        <a href="index.html" class="footer-logo">
+                            <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                            <span class="logo-text">NovaBooks</span>
+                        </a>
+                        <p class="footer-desc">Your ultimate destination for books in Bangladesh.</p>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh</li>
+                            <li><i class="fa-solid fa-phone"></i> +880 1712-345678</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 NovaBooks. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Cart Logic Script
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItems = document.querySelectorAll('.cart-item');
+            
+            // Attach event listeners to quantity buttons and remove buttons
+            cartItems.forEach(item => {
+                const minusBtn = item.querySelector('.minus-btn');
+                const plusBtn = item.querySelector('.plus-btn');
+                const qtyInput = item.querySelector('.item-qty');
+                const removeBtn = item.querySelector('.remove-item-btn');
+                const price = parseFloat(item.getAttribute('data-price'));
+                const subtotalText = item.querySelector('.item-subtotal-text');
+
+                // Update subtotal for this item
+                const updateItemSubtotal = () => {
+                    let qty = parseInt(qtyInput.value);
+                    if(isNaN(qty) || qty < 1) { qty = 1; qtyInput.value = 1; }
+                    if(qty > 10) { qty = 10; qtyInput.value = 10; }
+                    
+                    const newSubtotal = price * qty;
+                    subtotalText.textContent = `৳ ${newSubtotal}`;
+                    calculateTotals();
+                };
+
+                minusBtn.addEventListener('click', () => {
+                    let val = parseInt(qtyInput.value);
+                    if(val > 1) {
+                        qtyInput.value = val - 1;
+                        updateItemSubtotal();
+                    }
+                });
+
+                plusBtn.addEventListener('click', () => {
+                    let val = parseInt(qtyInput.value);
+                    if(val < 10) {
+                        qtyInput.value = val + 1;
+                        updateItemSubtotal();
+                    }
+                });
+
+                qtyInput.addEventListener('change', updateItemSubtotal);
+
+                removeBtn.addEventListener('click', () => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateX(-20px)';
+                    item.style.transition = 'all 0.3s ease';
+                    
+                    setTimeout(() => {
+                        item.remove();
+                        checkEmptyCart();
+                        calculateTotals();
+                    }, 300);
+                });
+            });
+
+            // Initial calculation
+            calculateTotals();
+        });
+
+        let currentDiscount = 0;
+
+        function applyCoupon() {
+            const input = document.getElementById('couponInput').value.trim().toUpperCase();
+            if(input === 'NOVA10') {
+                // Apply 10% discount to items
+                currentDiscount = 0.10; 
+                alert('Coupon applied successfully! 10% discount.');
+            } else {
+                currentDiscount = 0;
+                alert('Invalid coupon code. Try NOVA10');
+            }
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const items = document.querySelectorAll('.cart-item');
+            let itemsTotal = 0;
+            let totalItemsCount = 0;
+
+            items.forEach(item => {
+                const price = parseFloat(item.getAttribute('data-price'));
+                const qty = parseInt(item.querySelector('.item-qty').value);
+                itemsTotal += (price * qty);
+                totalItemsCount += qty;
+            });
+
+            // Update Header Cart Badge
+            const headerCartBadge = document.getElementById('cartBadge');
+            if(headerCartBadge) headerCartBadge.textContent = totalItemsCount;
+
+            // Handle Free Shipping Logic
+            const freeShippingRadio = document.getElementById('freeShippingRadio');
+            const shippingRadios = document.getElementsByName('shipping');
+            
+            if (itemsTotal >= 1500) {
+                freeShippingRadio.disabled = false;
+                freeShippingRadio.checked = true; // Auto select if eligible
+            } else {
+                freeShippingRadio.disabled = true;
+                if(freeShippingRadio.checked) {
+                    shippingRadios[0].checked = true; // Fallback to Inside Dhaka
+                }
+            }
+
+            // Calculate Discount
+            const discountAmount = itemsTotal * currentDiscount;
+            const discountRow = document.getElementById('discountRow');
+            if(currentDiscount > 0) {
+                discountRow.style.display = 'flex';
+                document.getElementById('summaryDiscount').textContent = `-৳ ${Math.round(discountAmount)}`;
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            // Calculate Shipping
+            let shippingCost = 0;
+            shippingRadios.forEach(radio => {
+                if(radio.checked) {
+                    shippingCost = parseFloat(radio.value);
+                }
+            });
+
+            // Grand Total
+            const grandTotal = (itemsTotal - discountAmount) + shippingCost;
+
+            // Update UI
+            document.getElementById('summaryItemsTotal').textContent = `৳ ${itemsTotal}`;
+            document.getElementById('summaryGrandTotal').textContent = `৳ ${Math.round(grandTotal)}`;
+            
+            const headerCartTotal = document.getElementById('headerCartTotal');
+            if(headerCartTotal) headerCartTotal.textContent = `৳ ${itemsTotal}`;
+        }
+
+        function checkEmptyCart() {
+            const items = document.querySelectorAll('.cart-item');
+            if(items.length === 0) {
+                document.getElementById('cartLayout').style.display = 'none';
+                document.getElementById('emptyCartState').style.display = 'block';
+                const headerCartBadge = document.getElementById('cartBadge');
+                if(headerCartBadge) headerCartBadge.textContent = '0';
+                const headerCartTotal = document.getElementById('headerCartTotal');
+                if(headerCartTotal) headerCartTotal.textContent = `৳ 0`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Get in touch with NovaBooks. We are here to help with your orders, inquiries, and book recommendations.">
+    <title>Contact Us | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Page Specific Styles for Contact -->
+    <style>
+        .page-header {
+            background-color: var(--color-bg-light);
+            padding: 50px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 60px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb a {
+            color: var(--color-primary);
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--color-primary);
+        }
+
+        .page-description {
+            color: var(--color-text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Contact Layout */
+        .contact-layout {
+            display: flex;
+            gap: 60px;
+            margin-bottom: 80px;
+            align-items: flex-start;
+        }
+
+        /* Left Column: Info & Map */
+        .contact-info-col {
+            flex: 1;
+        }
+
+        .contact-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .contact-info-card {
+            background-color: var(--color-bg-light);
+            padding: 30px 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            text-align: center;
+            transition: all var(--transition-fast);
+        }
+
+        .contact-info-card:hover {
+            box-shadow: var(--shadow-sm);
+            border-color: var(--color-secondary);
+            transform: translateY(-3px);
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--color-white);
+            color: var(--color-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin: 0 auto 15px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-title {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+
+        .info-text {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .info-text a {
+            color: var(--color-text-muted);
+        }
+        
+        .info-text a:hover {
+            color: var(--color-secondary);
+        }
+
+        /* Map Section */
+        .map-wrapper {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            height: 350px;
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Right Column: Form */
+        .contact-form-col {
+            flex: 1;
+            background-color: var(--color-white);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--color-border);
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--color-text-main);
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+            background-color: #fafafa;
+        }
+
+        .form-control:focus {
+            border-color: var(--color-secondary);
+            background-color: var(--color-white);
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background-color: rgba(56, 161, 105, 0.1);
+            border: 1px solid var(--color-success);
+            color: var(--color-success);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .success-message i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .contact-layout {
+                flex-direction: column;
+            }
+            .contact-form-col {
+                width: 100%;
+            }
+            .map-wrapper {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+            .contact-info-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .contact-form-col {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Consistent) -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span class="top-bar-text"><i class="fa-solid fa-truck-fast"></i> Free shipping inside Bangladesh on orders over ৳1500!</span>
+                <div class="top-bar-links">
+                    <a href="faq.html">Help Center</a>
+                    <a href="orders.html">Track Order</a>
+                    <div class="currency-selector">
+                        <span>BDT (৳)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="action-label">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">0</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">0</span>
+                    <span class="cart-total" id="headerCartTotal">৳0.00</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="books.html">Books</a></li>
+                    <li class="nav-item"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                    <li class="nav-item"><a href="about.html">About</a></li>
+                    <li class="nav-item active"><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span style="color: var(--color-primary); font-weight: 500;">Contact Us</span>
+                </div>
+                <h1 class="page-title">Get in Touch</h1>
+                <p class="page-description">Have a question about an order, need a book recommendation, or want to partner with us? Our team is here to help you.</p>
+            </div>
+        </section>
+
+        <section class="section pt-0">
+            <div class="container">
+                <div class="contact-layout">
+                    
+                    <!-- Left: Info & Map -->
+                    <div class="contact-info-col">
+                        
+                        <div class="contact-info-grid">
+                            <div class="contact-info-card">
+                                <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                                <h3 class="info-title">Headquarters</h3>
+                                <div class="info-text">
+                                    123 Book Avenue<br>
+                                    Dhanmondi, Dhaka-1209<br>
+                                    Bangladesh
+                                </div>
+                            </div>
+                            
+                            <div class="contact-info-card">
+                                <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                                <h3 class="info-title">Email Us</h3>
+                                <div class="info-text">
+                                    <a href="mailto:support@novabooks.com.bd">support@novabooks.com.bd</a><br>
+                                    <a href="mailto:info@novabooks.com.bd">info@novabooks.com.bd</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-info-card">
+                                <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                                <h3 class="info-title">Call Us</h3>
+                                <div class="info-text">
+                                    <a href="tel:+8801712345678">+880 1712-345678</a><br>
+                                    <a href="tel:+8809612345678">+880 9612-345678</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-info-card">
+                                <div class="info-icon"><i class="fa-regular fa-clock"></i></div>
+                                <h3 class="info-title">Working Hours</h3>
+                                <div class="info-text">
+                                    Saturday - Thursday<br>
+                                    9:00 AM - 8:00 PM<br>
+                                    (Closed on Fridays)
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Map Wrapper -->
+                        <div class="map-wrapper">
+                            <!-- Using a placeholder embed map showing Dhaka -->
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m3!1d14608.036944850388!2d90.3671072!3d23.7470496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8b33c5c3b6f%3A0x463971f11c75276!2sDhanmondi%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+
+                    </div>
+
+                    <!-- Right: Contact Form -->
+                    <div class="contact-form-col">
+                        <div class="form-header">
+                            <h2>Send a Message</h2>
+                            <p>Fill out the form below and we will get back to you within 24 hours.</p>
+                        </div>
+                        
+                        <div id="contactSuccessMsg" class="success-message">
+                            <i class="fa-regular fa-circle-check"></i>
+                            <strong>Message Sent Successfully!</strong><br>
+                            Thank you for reaching out. We will contact you soon.
+                        </div>
+
+                        <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="firstName">First Name <span class="text-danger">*</span></label>
+                                    <input type="text" id="firstName" class="form-control" placeholder="John" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="lastName">Last Name <span class="text-danger">*</span></label>
+                                    <input type="text" id="lastName" class="form-control" placeholder="Doe" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="email">Email Address <span class="text-danger">*</span></label>
+                                    <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" class="form-control" placeholder="+880 1XXX-XXXXXX">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="subject">Subject <span class="text-danger">*</span></label>
+                                <select id="subject" class="form-control" required>
+                                    <option value="" disabled selected>Select a subject...</option>
+                                    <option value="order">Order Inquiry / Tracking</option>
+                                    <option value="return">Returns & Refunds</option>
+                                    <option value="book_request">Book Request / Availability</option>
+                                    <option value="partnership">Partnership / Bulk Order</option>
+                                    <option value="other">Other Inquiry</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="message">Your Message <span class="text-danger">*</span></label>
+                                <textarea id="message" class="form-control" placeholder="How can we help you today?" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="submitBtn">
+                                Send Message <i class="fa-solid fa-paper-plane" style="margin-left: 5px;"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col brand-col">
+                        <a href="index.html" class="footer-logo">
+                            <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                            <span class="logo-text">NovaBooks</span>
+                        </a>
+                        <p class="footer-desc">Your ultimate destination for books in Bangladesh. We provide a vast collection of fiction, non-fiction, academic, and professional books at the best prices.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="deals.html">Special Offers</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Top Categories</h3>
+                        <ul>
+                            <li><a href="books.html?cat=fiction">Fiction</a></li>
+                            <li><a href="books.html?cat=history">History</a></li>
+                            <li><a href="books.html?cat=academic">Academic</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 123 Book Avenue, Dhanmondi, Dhaka</li>
+                            <li><i class="fa-solid fa-phone"></i> +880 1712-345678</li>
+                            <li><i class="fa-solid fa-envelope"></i> support@novabooks.com.bd</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 NovaBooks. All rights reserved.</p>
+                    
+                    <!-- CORRECTED FIXED PAYMENT LOGOS -->
+                    <div class="payment-methods">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/BKash_Logo.svg/2560px-BKash_Logo.svg.png" alt="bKash" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="MasterCard" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="footer-payment-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Form Submission Logic
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const form = document.getElementById('contactForm');
+            const successMsg = document.getElementById('contactSuccessMsg');
+            const originalText = btn.innerHTML;
+            
+            // Loading state
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...';
+            btn.disabled = true;
+            btn.style.opacity = '0.8';
+
+            // Simulate network request
+            setTimeout(() => {
+                form.style.display = 'none';
+                successMsg.style.display = 'block';
+                
+                // Scroll to message
+                successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 1200);
+        }
+    </script>
+</body>
+</html>

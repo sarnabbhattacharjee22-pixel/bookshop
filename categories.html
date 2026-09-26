@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Browse all book categories at NovaBooks. From gripping Fiction to advanced Technology guides.">
+    <title>All Categories | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Page Specific Styles for Categories -->
+    <style>
+        /* Page Header */
+        .page-header {
+            background-color: var(--color-bg-light);
+            padding: 50px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 60px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: 15px;
+        }
+        
+        .breadcrumb a {
+            color: var(--color-primary);
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .page-description {
+            color: var(--color-text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Category Grid */
+        .all-categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        /* Premium Category Card */
+        .premium-cat-card {
+            background-color: var(--color-white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+            transition: all var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .premium-cat-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+            border-color: var(--color-secondary);
+        }
+
+        .cat-card-header {
+            height: 160px;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--color-primary);
+        }
+
+        .cat-card-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: transform var(--transition-normal), opacity var(--transition-normal);
+        }
+
+        .premium-cat-card:hover .cat-card-header img {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+
+        .cat-icon-wrapper {
+            position: absolute;
+            bottom: -25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--color-secondary);
+            color: var(--color-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-md);
+            z-index: 10;
+        }
+
+        .cat-card-body {
+            padding: 30px 25px 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .cat-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            margin-bottom: 5px;
+        }
+
+        .cat-count {
+            font-size: 0.85rem;
+            color: var(--color-secondary);
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cat-desc {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        /* Sub-category tags */
+        .cat-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .cat-tag {
+            background-color: var(--color-bg-light);
+            color: var(--color-text-main);
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid var(--color-border);
+            transition: all var(--transition-fast);
+        }
+
+        .premium-cat-card:hover .cat-tag {
+            border-color: rgba(230, 126, 34, 0.3); /* Subtle secondary color border on hover */
+        }
+
+        .cat-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color var(--transition-fast);
+            margin-top: auto;
+        }
+
+        .cat-action i {
+            transition: transform var(--transition-fast);
+        }
+
+        .premium-cat-card:hover .cat-action {
+            color: var(--color-secondary);
+        }
+
+        .premium-cat-card:hover .cat-action i {
+            transform: translateX(5px);
+        }
+
+        /* Quick Jump Section */
+        .quick-jump-section {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            padding: 40px 0;
+            margin-bottom: 60px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        .alphabet-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .alpha-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--color-white);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            transition: all var(--transition-fast);
+        }
+
+        .alpha-btn:hover, .alpha-btn.active {
+            background-color: var(--color-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+            .all-categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .all-categories-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-jump-section {
+                padding: 30px 15px;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Announcement Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span class="top-bar-text"><i class="fa-solid fa-truck-fast"></i> Free shipping inside Bangladesh on orders over ৳1500!</span>
+                <div class="top-bar-links">
+                    <a href="contact.html">Help Center</a>
+                    <a href="orders.html">Track Order</a>
+                    <div class="currency-selector">
+                        <span>BDT (৳)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                        <option value="academic">Academic</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="action-label">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">0</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">0</span>
+                    <span class="cart-total" id="headerCartTotal">৳0.00</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="books.html">Books</a></li>
+                    <li class="nav-item active"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                    <li class="nav-item"><a href="about.html">About</a></li>
+                    <li class="nav-item"><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span style="color: var(--color-primary); font-weight: 500;">Categories</span>
+                </div>
+                <h1 class="page-title">Explore Categories</h1>
+                <p class="page-description">Find exactly what you're looking for by browsing our carefully curated collections covering everything from classic literature to modern technology.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- Quick Jump (A-Z) -->
+            <div class="quick-jump-section">
+                <h3 style="font-family: var(--font-body); font-weight: 500;">Jump to a Category</h3>
+                <div class="alphabet-list">
+                    <a href="#" class="alpha-btn active">All</a>
+                    <a href="#" class="alpha-btn">A</a>
+                    <a href="#" class="alpha-btn">B</a>
+                    <a href="#" class="alpha-btn">C</a>
+                    <a href="#" class="alpha-btn">F</a>
+                    <a href="#" class="alpha-btn">H</a>
+                    <a href="#" class="alpha-btn">M</a>
+                    <a href="#" class="alpha-btn">P</a>
+                    <a href="#" class="alpha-btn">R</a>
+                    <a href="#" class="alpha-btn">S</a>
+                    <a href="#" class="alpha-btn">T</a>
+                </div>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="all-categories-grid">
+                
+                <!-- Category Card: Fiction -->
+                <a href="books.html?cat=fiction" class="premium-cat-card">
+                    <div class="cat-card-header">
+                        <img src="https://images.unsplash.com/photo-1474932430478-367d16b99031?auto=format&fit=crop&w=600&q=80" alt="Fiction Books">
+                        <div class="cat-icon-wrapper"><i class="fa-solid fa-masks-theater"></i></div>
+                    </div>
+                    <div class="cat-card-body">
+                        <h3 class="cat-title">Fiction & Literature</h3>
+                        <span class="cat-count">1,245 Books</span>
+                        <p class="cat-desc">Lose yourself in imaginative worlds, compelling characters, and beautifully crafted narratives from renowned authors.</p>
+                        <div class="cat-tags">
+                            <span class="cat-tag">Contemporary</span>
+                            <span class="cat-tag">Classics</span>
+                            <span class="cat-tag">Historical</span>
+                        </div>
+                        <div class="cat-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <!-- Category Card: Science Fiction & Fantasy -->
+                <a href="books.html?cat=scifi" class="premium-cat-card">
+                    <div class="cat-card-header">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80" alt="Science Fiction">
+                        <div class="cat-icon-wrapper"><i class="fa-solid fa-rocket"></i></div>
+                    </div>
+                    <div class="cat-card-body">
+                        <h3 class="cat-title">Sci-Fi & Fantasy</h3>
+                        <span class="cat-count">850 Books</span>
+                        <p class="cat-desc">Journey through space, time, and magical realms with epic world-building and futuristic concepts.</p>
+                        <div class="cat-tags">
+                            <span class="cat-tag">Space Opera</span>
+                            <span class="cat-tag">High Fantasy</span>
+                            <span class="cat-tag">Dystopian</span>
+                        </div>
+                        <div class="cat-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <!-- Category Card: Mystery & Thriller -->
+                <a href="books.html?cat=thriller" class="premium-cat-card">
+                    <div class="cat-card-header">
+                        <img src="https://images.unsplash.com/photo-1517436073-3b1b11347072?auto=format&fit=crop&w=600&q=80" alt="Mystery & Thriller">
+                        <div class="cat-icon-wrapper"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    </div>
+                    <div class="cat-card-body">
+                        <h3 class="cat-title">Mystery & Thriller</h3>
+                        <span class="cat-count">920 Books</span>
+                        <p class="cat-desc">Keep yourself on the edge of your seat with gripping suspense, psychological twists, and thrilling detective work.</p>
+                        <div class="cat-tags">
+                            <span class="cat-tag">Crime</span>
+                            <span class="cat-tag">Psychological</span>
+                            <span class="cat-tag">Espionage</span>
+                        </div>
+                        <div class="cat-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <!-- Category Card: Business & Economics -->
+                <a href="books.html?cat=business" class="premium-cat-card">
+                    <div class="cat-card-header">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80" alt="Business Books">
+                        <div class="cat-icon-wrapper"><i class="fa-solid fa-chart-line"></i></div>
+                    </div>
+                    <div class="cat-card-body">
+                        <h3 class="cat-title">Business & Econ</h3>
+                        <span class="cat-count">640 Books</span>
+                        <p class="cat-desc">Gain insights from industry leaders, master financial literacy, and learn the strategies of successful entrepreneurship.</p>
+                        <div class="cat-tags">
+                            <span class="cat-tag">Investing</span>
+                            <span class="cat-tag">Management</span>
+                            <span class="cat-tag">Startups</span>
+                        </div>
+                        <div class="cat-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <!-- Category Card: Technology & Programming -->
+                <a href="books.html?cat=technology" class="premium-cat-card">
+                    <div class="cat-card-header">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80" alt="Technology">
+                        <div class="cat-icon-wrapper"><i class="fa-solid fa-laptop-code"></i></div>
+                    </div>
+                    <div class="cat-card-body">
+                        <h3 class="cat-title">Tech & Programming</h3>
+                        <span class="cat-count">1,020 Books</span>
+                        <p class="cat-desc">Stay ahead of the curve with expert guides on coding, software architecture, artificial intelligence, and web development.</p>
+                        <div class="cat-tags">
+                            <span class="cat-tag">Python</span>
+                            <span class="cat-tag">Web Dev</span>
+                            <span class="cat-tag">Data Science</span>
+                        </div>
+                        <div class="cat-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <!-- Category Card: History & Biography -->
+                <a href="books.html?cat=history" class="premium-cat-card">
+                    <div class="cat-card-header">
+                        <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=600&q=80" alt="History">
+                        <div class="cat-icon-wrapper"><i class="fa-solid fa-monument"></i></div>
+                    </div>
+                    <div class="cat-card-body">
+                        <h3 class="cat-title">History & Biography</h3>
+                        <span class="cat-count">730 Books</span>
+                        <p class="cat-desc">Explore the events that shaped our world and read the fascinating life stories of historical figures and modern icons.</p>
+                        <div class="cat-tags">
+                            <span class="cat-tag">World War II</span>
+                            <span class="cat-tag">Memoirs</span>
+                            <span class="cat-tag">Ancient History</span>
+                        </div>
+                        <div class="cat-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <!-- Category Card: Self-Development -->
+                <a href="books.html?cat=selfhelp" class="premium-cat-card">
+                    <div class="cat-card-header">
+                        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80" alt="Self Development">
+                        <div class="cat-icon-wrapper"><i class="fa-solid fa-leaf"></i></div>
+                    </div>
+                    <div class="cat-card-body">
+                        <h3 class="cat-title">Self-Development</h3>
+                        <span class="cat-count">890 Books</span>
+                        <p class="cat-desc">Unlock your full potential with actionable advice on productivity, mental health, habits, and personal growth.</p>
+                        <div class="cat-tags">
+                            <span class="cat-tag">Productivity</span>
+                            <span class="cat-tag">Psychology</span>
+                            <span class="cat-tag">Motivation</span>
+                        </div>
+                        <div class="cat-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <!-- Category Card: Academic & Educational -->
+                <a href="books.html?cat=academic" class="premium-cat-card">
+                    <div class="cat-card-header">
+                        <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=600&q=80" alt="Academic Books">
+                        <div class="cat-icon-wrapper"><i class="fa-solid fa-graduation-cap"></i></div>
+                    </div>
+                    <div class="cat-card-body">
+                        <h3 class="cat-title">Academic & Edu</h3>
+                        <span class="cat-count">1,500 Books</span>
+                        <p class="cat-desc">Comprehensive textbooks, reference materials, and study guides for students, educators, and lifelong learners.</p>
+                        <div class="cat-tags">
+                            <span class="cat-tag">Engineering</span>
+                            <span class="cat-tag">Medical</span>
+                            <span class="cat-tag">Law</span>
+                        </div>
+                        <div class="cat-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <!-- Category Card: Children & Teens -->
+                <a href="books.html?cat=kids" class="premium-cat-card">
+                    <div class="cat-card-header">
+                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80" alt="Children's Books">
+                        <div class="cat-icon-wrapper"><i class="fa-solid fa-child-reaching"></i></div>
+                    </div>
+                    <div class="cat-card-body">
+                        <h3 class="cat-title">Children & Teens</h3>
+                        <span class="cat-count">1,150 Books</span>
+                        <p class="cat-desc">Inspire the next generation with colorful picture books, engaging middle-grade adventures, and popular YA novels.</p>
+                        <div class="cat-tags">
+                            <span class="cat-tag">Picture Books</span>
+                            <span class="cat-tag">Young Adult</span>
+                            <span class="cat-tag">Educational</span>
+                        </div>
+                        <div class="cat-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Brand Column -->
+                    <div class="footer-col brand-col">
+                        <a href="index.html" class="footer-logo">
+                            <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                            <span class="logo-text">NovaBooks</span>
+                        </a>
+                        <p class="footer-desc">Your ultimate destination for books in Bangladesh. We provide a vast collection of fiction, non-fiction, academic, and professional books at the best prices.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="footer-col">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="deals.html">Special Offers</a></li>
+                            <li><a href="authors.html">Popular Authors</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="footer-col">
+                        <h3>Top Categories</h3>
+                        <ul>
+                            <li><a href="books.html?cat=fiction">Fiction</a></li>
+                            <li><a href="books.html?cat=history">History</a></li>
+                            <li><a href="books.html?cat=business">Business</a></li>
+                            <li><a href="books.html?cat=academic">Academic</a></li>
+                            <li><a href="books.html?cat=kids">Children's Books</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact & Newsletter -->
+                    <div class="footer-col">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 123 Book Avenue, Dhanmondi, Dhaka-1209, Bangladesh</li>
+                            <li><i class="fa-solid fa-phone"></i> +880 1712-345678</li>
+                            <li><i class="fa-solid fa-envelope"></i> support@novabooks.com.bd</li>
+                        </ul>
+                        
+                        <div class="newsletter-box">
+                            <h4>Subscribe to our newsletter</h4>
+                            <form action="#" class="newsletter-form">
+                                <input type="email" placeholder="Enter your email" required>
+                                <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 NovaBooks. All rights reserved.</p>
+                    <div class="payment-methods">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/BKash_Logo.svg/2560px-BKash_Logo.svg.png" alt="bKash" class="footer-payment-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="MasterCard" class="footer-payment-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="footer-payment-logo">
+</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Simple logic to handle alphabetical jumping state (UI only for prototype)
+        document.addEventListener('DOMContentLoaded', () => {
+            const alphaBtns = document.querySelectorAll('.alpha-btn');
+            alphaBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alphaBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

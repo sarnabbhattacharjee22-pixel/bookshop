@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Browse our massive collection of books across all genres at NovaBooks.">
+    <title>All Books | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Page Specific Styles for Shop/Catalog -->
+    <style>
+        /* Page Header */
+        .page-header {
+            background-color: var(--color-bg-light);
+            padding: 40px 0;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 40px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: 15px;
+        }
+        
+        .breadcrumb a {
+            color: var(--color-primary);
+        }
+        
+        .breadcrumb span {
+            color: var(--color-text-muted);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Shop Layout */
+        .shop-layout {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        /* Sidebar Filters */
+        .shop-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .filter-widget {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .filter-widget:last-child {
+            border-bottom: none;
+        }
+
+        .filter-title {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .filter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--color-text-main);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--color-secondary);
+            cursor: pointer;
+        }
+
+        .checkbox-group span.count {
+            margin-left: auto;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Price Slider Mockup */
+        .price-inputs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .price-inputs input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+        }
+
+        /* Shop Content */
+        .shop-content {
+            flex: 1;
+        }
+
+        .shop-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px 20px;
+            background-color: var(--color-bg-light);
+            border-radius: var(--radius-md);
+        }
+
+        .toolbar-left {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .sort-select {
+            padding: 8px 15px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            background-color: var(--color-white);
+            font-size: 0.95rem;
+            color: var(--color-text-main);
+            cursor: pointer;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            background-color: var(--color-white);
+            color: var(--color-text-muted);
+            transition: all var(--transition-fast);
+        }
+
+        .view-btn.active, .view-btn:hover {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+
+        /* Grid System */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px 20px;
+            margin-bottom: 50px;
+        }
+
+        /* Mobile Filter Button */
+        .mobile-filter-btn {
+            display: none;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            color: var(--color-text-main);
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+
+        .page-link:hover, .page-link.active {
+            background-color: var(--color-secondary);
+            color: var(--color-white);
+            border-color: var(--color-secondary);
+        }
+
+        /* Responsive Shop Adjustments */
+        @media (max-width: 992px) {
+            .shop-layout {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .mobile-filter-btn {
+                display: flex;
+            }
+
+            .shop-sidebar {
+                position: fixed;
+                top: 0;
+                left: -320px;
+                width: 300px;
+                height: 100vh;
+                background-color: var(--color-white);
+                z-index: 2000;
+                overflow-y: auto;
+                padding: 30px 20px;
+                box-shadow: var(--shadow-lg);
+                transition: left var(--transition-normal);
+            }
+
+            .shop-sidebar.active {
+                left: 0;
+            }
+
+            .filter-close-btn {
+                display: block;
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                font-size: 1.5rem;
+                color: var(--color-primary);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .books-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .shop-toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .toolbar-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .books-grid {
+                grid-template-columns: 1fr; /* 1 column on extremely small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Same as index.html) -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span class="top-bar-text"><i class="fa-solid fa-truck-fast"></i> Free shipping inside Bangladesh on orders over ৳1500!</span>
+                <div class="top-bar-links">
+                    <a href="contact.html">Help Center</a>
+                    <a href="orders.html">Track Order</a>
+                    <div class="currency-selector">
+                        <span>BDT (৳)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                        <option value="academic">Academic</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="action-label">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">0</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">0</span>
+                    <span class="cart-total" id="headerCartTotal">৳0.00</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item active"><a href="books.html">Books</a></li>
+                    <li class="nav-item"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                    <li class="nav-item"><a href="about.html">About</a></li>
+                    <li class="nav-item"><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span>All Books</span>
+                </div>
+                <h1 class="page-title">Explore All Books</h1>
+                <p style="color: var(--color-text-muted);">Discover thousands of titles across all genres.</p>
+            </div>
+        </section>
+
+        <!-- Shop Section -->
+        <section class="section pt-0">
+            <div class="container">
+                <div class="shop-layout">
+                    
+                    <!-- Sidebar Filters -->
+                    <aside class="shop-sidebar" id="shopSidebar">
+                        <!-- Mobile Close for Sidebar -->
+                        <button class="close-modal filter-close-btn d-none" id="closeFilterBtn" style="display: none;"><i class="fa-solid fa-xmark"></i></button>
+                        
+                        <h3 style="margin-bottom: 25px; font-size: 1.5rem; display: none;" id="mobileFilterTitle">Filters</h3>
+
+                        <!-- Category Filter -->
+                        <div class="filter-widget">
+                            <div class="filter-title">Categories <i class="fa-solid fa-chevron-up"></i></div>
+                            <div class="filter-list">
+                                <label class="checkbox-group">
+                                    <input type="checkbox" checked> Fiction <span class="count">(1,245)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> Non-Fiction <span class="count">(980)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> Science Fiction <span class="count">(542)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> Business & Economics <span class="count">(850)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> History <span class="count">(640)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> Programming <span class="count">(420)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> Biography <span class="count">(315)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Price Filter -->
+                        <div class="filter-widget">
+                            <div class="filter-title">Price Range <i class="fa-solid fa-chevron-up"></i></div>
+                            <div class="price-inputs">
+                                <input type="number" placeholder="Min ৳" value="0">
+                                <span>-</span>
+                                <input type="number" placeholder="Max ৳" value="5000">
+                            </div>
+                            <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 10px;">Apply Price</button>
+                        </div>
+
+                        <!-- Author Filter -->
+                        <div class="filter-widget">
+                            <div class="filter-title">Authors <i class="fa-solid fa-chevron-up"></i></div>
+                            <div class="filter-list">
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> James Clear <span class="count">(3)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> J.K. Rowling <span class="count">(12)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> Humayun Ahmed <span class="count">(85)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> Yuval Noah Harari <span class="count">(4)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> Stephen King <span class="count">(32)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Rating Filter -->
+                        <div class="filter-widget">
+                            <div class="filter-title">Customer Rating <i class="fa-solid fa-chevron-up"></i></div>
+                            <div class="filter-list">
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> 
+                                    <span class="stars text-warning"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                                    <span class="count">(500+)</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> 
+                                    <span class="stars text-warning"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i> & Up</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox"> 
+                                    <span class="stars text-warning"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i> & Up</span>
+                                </label>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Main Shop Content -->
+                    <div class="shop-content">
+                        
+                        <!-- Toolbar -->
+                        <div class="shop-toolbar">
+                            <div class="toolbar-left">
+                                Showing 1–12 of 1,245 results
+                            </div>
+                            
+                            <!-- Mobile Filter Toggle Button -->
+                            <button class="btn btn-outline-white mobile-filter-btn" id="openFilterBtn" style="border-color: var(--color-border); color: var(--color-primary);">
+                                <i class="fa-solid fa-filter"></i> Filter Books
+                            </button>
+
+                            <div class="toolbar-right">
+                                <select class="sort-select" aria-label="Sort books">
+                                    <option value="popularity">Sort by Popularity</option>
+                                    <option value="newest">Sort by Newest</option>
+                                    <option value="price-low">Price: Low to High</option>
+                                    <option value="price-high">Price: High to Low</option>
+                                    <option value="rating">Average Rating</option>
+                                </select>
+                                <div class="view-options">
+                                    <button class="view-btn active" aria-label="Grid View"><i class="fa-solid fa-grid-2"></i></button>
+                                    <button class="view-btn" aria-label="List View"><i class="fa-solid fa-list"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Books Grid -->
+                        <div class="books-grid">
+                            
+                            <!-- Book 1 -->
+                            <div class="book-card" data-id="1">
+                                <div class="book-cover">
+                                    <div class="badges">
+                                        <span class="badge-discount">-15%</span>
+                                    </div>
+                                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80" alt="The Silent Patient" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn" aria-label="Quick View"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn" aria-label="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Thriller</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=1">The Silent Patient</a></h3>
+                                    <a href="authors.html" class="book-author">Alex Michaelides</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                                        <span class="review-count">(1,240)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price">
+                                            <span class="current-price">৳ 510</span>
+                                            <span class="old-price">৳ 600</span>
+                                        </div>
+                                        <button class="btn btn-primary add-to-cart-btn" aria-label="Add to Cart"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Book 2 -->
+                            <div class="book-card" data-id="2">
+                                <div class="book-cover">
+                                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=400&q=80" alt="Atomic Habits" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Self-Help</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=2">Atomic Habits</a></h3>
+                                    <a href="authors.html" class="book-author">James Clear</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                        <span class="review-count">(5,600)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price"><span class="current-price">৳ 450</span></div>
+                                        <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Book 3 -->
+                            <div class="book-card" data-id="3">
+                                <div class="book-cover">
+                                    <div class="badges"><span class="badge-discount">-20%</span></div>
+                                    <img src="https://images.unsplash.com/photo-1629196914225-ebdd4830113c?auto=format&fit=crop&w=400&q=80" alt="Dune" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Sci-Fi</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=3">Dune</a></h3>
+                                    <a href="authors.html" class="book-author">Frank Herbert</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+                                        <span class="review-count">(3,100)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price">
+                                            <span class="current-price">৳ 640</span>
+                                            <span class="old-price">৳ 800</span>
+                                        </div>
+                                        <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Book 4 -->
+                            <div class="book-card" data-id="4">
+                                <div class="book-cover">
+                                    <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=400&q=80" alt="Sapiens" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">History</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=4">Sapiens</a></h3>
+                                    <a href="authors.html" class="book-author">Yuval Noah Harari</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                                        <span class="review-count">(4,800)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price"><span class="current-price">৳ 750</span></div>
+                                        <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Book 5 -->
+                            <div class="book-card" data-id="5">
+                                <div class="book-cover">
+                                    <div class="badges"><span class="badge-discount">-30%</span></div>
+                                    <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=400&q=80" alt="JavaScript" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Programming</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=5">JavaScript: The Good Parts</a></h3>
+                                    <a href="authors.html" class="book-author">Douglas Crockford</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+                                        <span class="review-count">(950)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price">
+                                            <span class="current-price">৳ 350</span>
+                                            <span class="old-price">৳ 500</span>
+                                        </div>
+                                        <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Book 6 -->
+                            <div class="book-card" data-id="6">
+                                <div class="book-cover">
+                                    <img src="https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?auto=format&fit=crop&w=400&q=80" alt="Marvel Comics" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Comics</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=6">Spider-Man: Miles Morales</a></h3>
+                                    <a href="authors.html" class="book-author">Brian Michael Bendis</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                        <span class="review-count">(2,100)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price"><span class="current-price">৳ 850</span></div>
+                                        <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Book 7 -->
+                            <div class="book-card" data-id="7">
+                                <div class="book-cover">
+                                    <img src="https://images.unsplash.com/photo-1588666309990-d68f08e3d4a6?auto=format&fit=crop&w=400&q=80" alt="1984" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Fiction</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=7">1984</a></h3>
+                                    <a href="authors.html" class="book-author">George Orwell</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                                        <span class="review-count">(10,500)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price"><span class="current-price">৳ 320</span></div>
+                                        <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Book 8 -->
+                            <div class="book-card" data-id="8">
+                                <div class="book-cover">
+                                    <div class="badges"><span class="badge-discount">-10%</span></div>
+                                    <img src="https://images.unsplash.com/photo-1592496431122-2349e0fbc666?auto=format&fit=crop&w=400&q=80" alt="Design" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Design</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=8">The Design of Everyday Things</a></h3>
+                                    <a href="authors.html" class="book-author">Don Norman</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+                                        <span class="review-count">(1,120)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price">
+                                            <span class="current-price">৳ 585</span>
+                                            <span class="old-price">৳ 650</span>
+                                        </div>
+                                        <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Book 9 -->
+                            <div class="book-card" data-id="9">
+                                <div class="book-cover">
+                                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" alt="To Kill a Mockingbird" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Classic</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=9">To Kill a Mockingbird</a></h3>
+                                    <a href="authors.html" class="book-author">Harper Lee</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                        <span class="review-count">(8,900)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price"><span class="current-price">৳ 410</span></div>
+                                        <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <a href="#" class="page-link" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></a>
+                            <a href="#" class="page-link active">1</a>
+                            <a href="#" class="page-link">2</a>
+                            <a href="#" class="page-link">3</a>
+                            <span style="color: var(--color-text-muted);">...</span>
+                            <a href="#" class="page-link">15</a>
+                            <a href="#" class="page-link" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="main-footer">
+        <!-- Footer content omitted for brevity, identical to index.html footer -->
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col brand-col">
+                        <a href="index.html" class="footer-logo">
+                            <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                            <span class="logo-text">NovaBooks</span>
+                        </a>
+                        <p class="footer-desc">Your ultimate destination for books in Bangladesh. We provide a vast collection of fiction, non-fiction, academic, and professional books at the best prices.</p>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Top Categories</h3>
+                        <ul>
+                            <li><a href="books.html?cat=fiction">Fiction</a></li>
+                            <li><a href="books.html?cat=academic">Academic</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 123 Book Avenue, Dhaka-1209, Bangladesh</li>
+                            <li><i class="fa-solid fa-phone"></i> +880 1712-345678</li>
+                            <li><i class="fa-solid fa-envelope"></i> support@novabooks.com.bd</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 NovaBooks. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quick View Modal (Hidden by Default) -->
+    <div class="modal-overlay" id="quickViewModal">
+        <div class="modal-content quick-view-container">
+            <button class="close-modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            <div class="quick-view-grid" id="quickViewContent">
+                <!-- Content injected via script.js -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Shop Page Specific Script (Mobile Filters & UI adjustments)
+        document.addEventListener('DOMContentLoaded', () => {
+            const openFilterBtn = document.getElementById('openFilterBtn');
+            const closeFilterBtn = document.getElementById('closeFilterBtn');
+            const shopSidebar = document.getElementById('shopSidebar');
+            const mobileFilterTitle = document.getElementById('mobileFilterTitle');
+            const body = document.body;
+
+            // Handle Mobile Filter Sidebar Drawer
+            if(window.innerWidth <= 992) {
+                closeFilterBtn.style.display = 'block';
+                mobileFilterTitle.style.display = 'block';
+            }
+
+            if (openFilterBtn && shopSidebar) {
+                openFilterBtn.addEventListener('click', () => {
+                    shopSidebar.classList.add('active');
+                    body.classList.add('no-scroll');
+                    
+                    // Create overlay specifically for filter sidebar if it doesn't exist
+                    let filterOverlay = document.getElementById('filterOverlay');
+                    if(!filterOverlay) {
+                        filterOverlay = document.createElement('div');
+                        filterOverlay.id = 'filterOverlay';
+                        filterOverlay.className = 'menu-overlay active';
+                        filterOverlay.style.zIndex = '1900';
+                        document.body.appendChild(filterOverlay);
+                        
+                        filterOverlay.addEventListener('click', closeFilter);
+                    } else {
+                        filterOverlay.classList.add('active');
+                    }
+                });
+            }
+
+            function closeFilter() {
+                shopSidebar.classList.remove('active');
+                body.classList.remove('no-scroll');
+                const filterOverlay = document.getElementById('filterOverlay');
+                if(filterOverlay) {
+                    filterOverlay.classList.remove('active');
+                }
+            }
+
+            if (closeFilterBtn) {
+                closeFilterBtn.addEventListener('click', closeFilter);
+            }
+
+            // Accordion logic for filter groups
+            const filterTitles = document.querySelectorAll('.filter-title');
+            filterTitles.forEach(title => {
+                title.addEventListener('click', () => {
+                    const icon = title.querySelector('i');
+                    const list = title.nextElementSibling;
+                    
+                    if(list.style.display === 'none') {
+                        list.style.display = 'flex';
+                        icon.className = 'fa-solid fa-chevron-up';
+                    } else {
+                        list.style.display = 'none';
+                        icon.className = 'fa-solid fa-chevron-down';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Discover your next great story at NovaBooks. The premium online bookstore in Bangladesh.">
+    <title>NovaBooks | Premium Online Bookstore</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Swiper.js CSS for Carousels -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+    <!-- Top Announcement Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span class="top-bar-text"><i class="fa-solid fa-truck-fast"></i> Free shipping inside Bangladesh on orders over ৳1500!</span>
+                <div class="top-bar-links">
+                    <a href="contact.html">Help Center</a>
+                    <a href="orders.html">Track Order</a>
+                    <div class="currency-selector">
+                        <span>BDT (৳)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header & Navigation -->
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+
+            <!-- Search Bar (Desktop) -->
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                        <option value="academic">Academic</option>
+                        <option value="kids">Children</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <!-- Search Suggestions Dropdown (Hidden by default) -->
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </form>
+            </div>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="action-label">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">0</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart" id="cartToggle">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">0</span>
+                    <span class="cart-total" id="headerCartTotal">৳0.00</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Navigation -->
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <!-- Mobile Close Button -->
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                
+                <ul class="nav-list">
+                    <li class="nav-item active"><a href="index.html">Home</a></li>
+                    <li class="nav-item has-dropdown">
+                        <a href="books.html">Books <i class="fa-solid fa-chevron-down"></i></a>
+                        <div class="dropdown-menu mega-menu">
+                            <div class="mega-menu-column">
+                                <h4>Popular Categories</h4>
+                                <ul>
+                                    <li><a href="books.html?cat=fiction">Fiction & Literature</a></li>
+                                    <li><a href="books.html?cat=thriller">Mystery & Thriller</a></li>
+                                    <li><a href="books.html?cat=scifi">Science Fiction & Fantasy</a></li>
+                                    <li><a href="books.html?cat=romance">Romance</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Non-Fiction</h4>
+                                <ul>
+                                    <li><a href="books.html?cat=biography">Biography & Memoir</a></li>
+                                    <li><a href="books.html?cat=history">History</a></li>
+                                    <li><a href="books.html?cat=business">Business & Economics</a></li>
+                                    <li><a href="books.html?cat=self-help">Self-Development</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Academic & Tech</h4>
+                                <ul>
+                                    <li><a href="books.html?cat=programming">Programming & IT</a></li>
+                                    <li><a href="books.html?cat=science">Science & Math</a></li>
+                                    <li><a href="books.html?cat=medical">Medical</a></li>
+                                    <li><a href="books.html?cat=law">Law</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-image">
+                                <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=300&q=80" alt="Special Collection">
+                                <div class="mega-menu-promo">
+                                    <span>New Release</span>
+                                    <a href="deals.html" class="btn btn-sm btn-outline-white">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                    <li class="nav-item"><a href="about.html">About</a></li>
+                    <li class="nav-item"><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <!-- Overlay for mobile menu -->
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <span class="hero-subtitle">Bestseller Collection 2026</span>
+                    <h1 class="hero-title">Discover Your Next <br><span>Great Story</span></h1>
+                    <p class="hero-description">Explore thousands of books across all genres. From gripping thrillers and epic fantasies to insightful biographies and academic essentials. Your reading journey starts here.</p>
+                    <div class="hero-buttons">
+                        <a href="books.html" class="btn btn-primary btn-lg">Explore Books <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="deals.html" class="btn btn-secondary btn-lg">View Offers</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <h4>10k+</h4>
+                            <p>Books Available</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>5k+</h4>
+                            <p>Happy Readers</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>4.9</h4>
+                            <p><i class="fa-solid fa-star text-warning"></i> Rating</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-composition">
+                        <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=600&q=80" alt="Person reading a book" class="main-img">
+                        <div class="floating-card top-right">
+                            <div class="icon-box"><i class="fa-solid fa-award"></i></div>
+                            <div>
+                                <strong>Award Winning</strong>
+                                <span>Authors & Publishers</span>
+                            </div>
+                        </div>
+                        <div class="floating-card bottom-left">
+                            <div class="icon-box"><i class="fa-solid fa-truck"></i></div>
+                            <div>
+                                <strong>Fast Delivery</strong>
+                                <span>All over Bangladesh</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="section categories-section bg-light">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Browse Categories</h2>
+                    <a href="categories.html" class="view-all-link">View All <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="categories-grid">
+                    <a href="books.html?cat=fiction" class="category-card">
+                        <div class="category-icon"><i class="fa-solid fa-masks-theater"></i></div>
+                        <h3>Fiction</h3>
+                        <p>1,245 Books</p>
+                    </a>
+                    <a href="books.html?cat=business" class="category-card">
+                        <div class="category-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <h3>Business</h3>
+                        <p>850 Books</p>
+                    </a>
+                    <a href="books.html?cat=technology" class="category-card">
+                        <div class="category-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                        <h3>Technology</h3>
+                        <p>1,020 Books</p>
+                    </a>
+                    <a href="books.html?cat=history" class="category-card">
+                        <div class="category-icon"><i class="fa-solid fa-monument"></i></div>
+                        <h3>History</h3>
+                        <p>640 Books</p>
+                    </a>
+                    <a href="books.html?cat=science" class="category-card">
+                        <div class="category-icon"><i class="fa-solid fa-flask"></i></div>
+                        <h3>Science</h3>
+                        <p>730 Books</p>
+                    </a>
+                    <a href="books.html?cat=children" class="category-card">
+                        <div class="category-icon"><i class="fa-solid fa-child-reaching"></i></div>
+                        <h3>Children's</h3>
+                        <p>1,150 Books</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Best Sellers Carousel -->
+        <section class="section bestsellers-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Bestselling Books</h2>
+                    <div class="swiper-navigation">
+                        <div class="swiper-button-prev-custom"><i class="fa-solid fa-arrow-left"></i></div>
+                        <div class="swiper-button-next-custom"><i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </div>
+
+                <!-- Swiper -->
+                <div class="swiper bestseller-swiper">
+                    <div class="swiper-wrapper" id="bestsellerContainer">
+                        <!-- Book Card 1 -->
+                        <div class="swiper-slide">
+                            <div class="book-card" data-id="1">
+                                <div class="book-cover">
+                                    <div class="badges">
+                                        <span class="badge-discount">-15%</span>
+                                    </div>
+                                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80" alt="The Silent Patient" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn" aria-label="Quick View" title="Quick View"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn" aria-label="Add to Wishlist" title="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Thriller</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=1">The Silent Patient</a></h3>
+                                    <a href="authors.html?name=alex-michaelides" class="book-author">Alex Michaelides</a>
+                                    <div class="book-rating">
+                                        <div class="stars">
+                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                        </div>
+                                        <span class="review-count">(1,240)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price">
+                                            <span class="current-price">৳ 510</span>
+                                            <span class="old-price">৳ 600</span>
+                                        </div>
+                                        <button class="btn btn-primary add-to-cart-btn" aria-label="Add to Cart"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Book Card 2 -->
+                        <div class="swiper-slide">
+                            <div class="book-card" data-id="2">
+                                <div class="book-cover">
+                                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=400&q=80" alt="Atomic Habits" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn" aria-label="Quick View"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn" aria-label="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Self-Help</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=2">Atomic Habits</a></h3>
+                                    <a href="authors.html?name=james-clear" class="book-author">James Clear</a>
+                                    <div class="book-rating">
+                                        <div class="stars">
+                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        </div>
+                                        <span class="review-count">(5,600)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price">
+                                            <span class="current-price">৳ 450</span>
+                                        </div>
+                                        <button class="btn btn-primary add-to-cart-btn" aria-label="Add to Cart"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Book Card 3 -->
+                        <div class="swiper-slide">
+                            <div class="book-card" data-id="3">
+                                <div class="book-cover">
+                                    <div class="badges">
+                                        <span class="badge-discount">-20%</span>
+                                    </div>
+                                    <img src="https://images.unsplash.com/photo-1629196914225-ebdd4830113c?auto=format&fit=crop&w=400&q=80" alt="Dune" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn" aria-label="Quick View"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn" aria-label="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Sci-Fi</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=3">Dune (Book 1)</a></h3>
+                                    <a href="authors.html?name=frank-herbert" class="book-author">Frank Herbert</a>
+                                    <div class="book-rating">
+                                        <div class="stars">
+                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                        </div>
+                                        <span class="review-count">(3,100)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price">
+                                            <span class="current-price">৳ 640</span>
+                                            <span class="old-price">৳ 800</span>
+                                        </div>
+                                        <button class="btn btn-primary add-to-cart-btn" aria-label="Add to Cart"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Book Card 4 -->
+                        <div class="swiper-slide">
+                            <div class="book-card" data-id="4">
+                                <div class="book-cover">
+                                    <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=400&q=80" alt="Sapiens" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn" aria-label="Quick View"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn" aria-label="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">History</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=4">Sapiens: A Brief History</a></h3>
+                                    <a href="authors.html?name=yuval-noah" class="book-author">Yuval Noah Harari</a>
+                                    <div class="book-rating">
+                                        <div class="stars">
+                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                        </div>
+                                        <span class="review-count">(4,800)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price">
+                                            <span class="current-price">৳ 750</span>
+                                        </div>
+                                        <button class="btn btn-primary add-to-cart-btn" aria-label="Add to Cart"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Book Card 5 -->
+                        <div class="swiper-slide">
+                            <div class="book-card" data-id="5">
+                                <div class="book-cover">
+                                    <div class="badges">
+                                        <span class="badge-discount">-30%</span>
+                                    </div>
+                                    <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=400&q=80" alt="JavaScript: The Good Parts" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn" aria-label="Quick View"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn" aria-label="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Programming</span>
+                                    <h3 class="book-title"><a href="book-details.html?id=5">JavaScript: The Good Parts</a></h3>
+                                    <a href="authors.html?name=douglas-crockford" class="book-author">Douglas Crockford</a>
+                                    <div class="book-rating">
+                                        <div class="stars">
+                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                        </div>
+                                        <span class="review-count">(950)</span>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price">
+                                            <span class="current-price">৳ 350</span>
+                                            <span class="old-price">৳ 500</span>
+                                        </div>
+                                        <button class="btn btn-primary add-to-cart-btn" aria-label="Add to Cart"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deal of the Week Banner -->
+        <section class="section promo-banner-section">
+            <div class="container">
+                <div class="promo-banner">
+                    <div class="promo-content">
+                        <span class="promo-tag">Deal of the Week</span>
+                        <h2 class="promo-title">The Lord of the Rings: <span>Collector's Edition</span></h2>
+                        <p class="promo-desc">Get the ultimate boxed set with beautiful illustrations and exclusive maps. Available at a massive discount for a limited time.</p>
+                        
+                        <div class="countdown" id="countdown">
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="days">03</span>
+                                <span class="countdown-label">Days</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="hours">14</span>
+                                <span class="countdown-label">Hours</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="mins">45</span>
+                                <span class="countdown-label">Mins</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="secs">22</span>
+                                <span class="countdown-label">Secs</span>
+                            </div>
+                        </div>
+                        
+                        <div class="promo-price">
+                            <span class="current-price">৳ 3,500</span>
+                            <span class="old-price">৳ 5,000</span>
+                        </div>
+                        <a href="book-details.html?id=99" class="btn btn-primary btn-lg">Shop Now</a>
+                    </div>
+                    <div class="promo-image">
+                        <img src="https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?auto=format&fit=crop&w=600&q=80" alt="Lord of the Rings Box Set">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features / Trust Section -->
+        <section class="section features-section bg-light">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                        <div class="feature-info">
+                            <h3>Fast Delivery</h3>
+                            <p>Delivery within 2-3 days in Dhaka, 3-5 days across BD.</p>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="feature-info">
+                            <h3>Secure Payments</h3>
+                            <p>100% secure payment via bKash, Cards, or COD.</p>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-rotate-left"></i></div>
+                        <div class="feature-info">
+                            <h3>Easy Returns</h3>
+                            <p>7-day return policy for damaged or incorrect books.</p>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+                        <div class="feature-info">
+                            <h3>24/7 Support</h3>
+                            <p>Dedicated customer support to help with your orders.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Brand Column -->
+                    <div class="footer-col brand-col">
+                        <a href="index.html" class="footer-logo">
+                            <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                            <span class="logo-text">NovaBooks</span>
+                        </a>
+                        <p class="footer-desc">Your ultimate destination for books in Bangladesh. We provide a vast collection of fiction, non-fiction, academic, and professional books at the best prices.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="footer-col">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="deals.html">Special Offers</a></li>
+                            <li><a href="authors.html">Popular Authors</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="footer-col">
+                        <h3>Top Categories</h3>
+                        <ul>
+                            <li><a href="books.html?cat=fiction">Fiction</a></li>
+                            <li><a href="books.html?cat=history">History</a></li>
+                            <li><a href="books.html?cat=business">Business</a></li>
+                            <li><a href="books.html?cat=academic">Academic</a></li>
+                            <li><a href="books.html?cat=kids">Children's Books</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact & Newsletter -->
+                    <div class="footer-col">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 123 Book Avenue, Dhanmondi, Dhaka-1209, Bangladesh</li>
+                            <li><i class="fa-solid fa-phone"></i> +880 1712-345678</li>
+                            <li><i class="fa-solid fa-envelope"></i> support@novabooks.com.bd</li>
+                        </ul>
+                        
+                        <div class="newsletter-box">
+                            <h4>Subscribe to our newsletter</h4>
+                            <form action="#" class="newsletter-form">
+                                <input type="email" placeholder="Enter your email" required>
+                                <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 NovaBooks. All rights reserved.</p>
+                    <div class="payment-methods">
+    <img src="https://mohammadalinijhoom.com/wp-content/uploads/2024/07/bKash-Logo.png" alt="bKash" class="footer-payment-logo">
+    <img src="mastercard.png" alt="MasterCard" class="footer-payment-logo">
+    <img src="visa.jpg" alt="Visa" class="footer-payment-logo">
+</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quick View Modal (Hidden by Default) -->
+    <div class="modal-overlay" id="quickViewModal">
+        <div class="modal-content quick-view-container">
+            <button class="close-modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            <div class="quick-view-grid" id="quickViewContent">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    
+    <!-- Application Scripts (To be created) -->
+    <!-- <script src="js/data.js"></script> -->
+    <!-- <script src="js/cart.js"></script> -->
+    <!-- <script src="js/main.js"></script> -->
+    
+    <script>
+        // Inline script to initialize Swiper for the frontend structural demo
+        // (Full logic will move to main.js)
+        document.addEventListener('DOMContentLoaded', function() {
+            if(typeof Swiper !== 'undefined') {
+                new Swiper('.bestseller-swiper', {
+                    slidesPerView: 2,
+                    spaceBetween: 15,
+                    navigation: {
+                        nextEl: '.swiper-button-next-custom',
+                        prevEl: '.swiper-button-prev-custom',
+                    },
+                    breakpoints: {
+                        576: { slidesPerView: 2, spaceBetween: 20 },
+                        768: { slidesPerView: 3, spaceBetween: 20 },
+                        1024: { slidesPerView: 4, spaceBetween: 24 },
+                        1280: { slidesPerView: 5, spaceBetween: 24 }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="The Silent Patient by Alex Michaelides - Buy now at NovaBooks.">
+    <title>The Silent Patient - Alex Michaelides | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Page Specific Styles -->
+    <style>
+        /* Breadcrumb overrides for this page */
+        .page-header-mini {
+            padding: 20px 0;
+            background-color: var(--color-bg-light);
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 40px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--color-primary);
+        }
+
+        /* Product Layout */
+        .product-container {
+            display: flex;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        /* Gallery Section */
+        .product-gallery {
+            width: 40%;
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .main-image {
+            width: 100%;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+            margin-bottom: 15px;
+            background-color: var(--color-bg-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .main-image img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            aspect-ratio: 3/4;
+        }
+
+        .thumbnail-list {
+            display: flex;
+            gap: 15px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 100px;
+            border-radius: var(--radius-sm);
+            border: 2px solid transparent;
+            cursor: pointer;
+            overflow: hidden;
+            opacity: 0.6;
+            transition: all var(--transition-fast);
+        }
+
+        .thumbnail.active, .thumbnail:hover {
+            opacity: 1;
+            border-color: var(--color-secondary);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Product Info Section */
+        .product-info {
+            flex: 1;
+        }
+
+        .product-category-meta {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .product-title {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+
+        .product-author {
+            font-size: 1.2rem;
+            color: var(--color-secondary);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .product-rating-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .rating-stars {
+            color: var(--color-warning);
+            font-size: 1.1rem;
+        }
+
+        .review-link {
+            color: var(--color-text-muted);
+            text-decoration: underline;
+            font-size: 0.95rem;
+        }
+
+        .product-price-box {
+            margin-bottom: 30px;
+        }
+
+        .price-current {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .price-old {
+            font-size: 1.2rem;
+            text-decoration: line-through;
+            color: var(--color-text-muted);
+            margin-left: 15px;
+        }
+
+        .discount-badge {
+            background-color: var(--color-danger);
+            color: var(--color-white);
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 700;
+            vertical-align: super;
+            margin-left: 15px;
+        }
+
+        .stock-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-success);
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .short-description {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--color-text-main);
+            margin-bottom: 30px;
+        }
+
+        /* Action Buttons */
+        .product-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .quantity-selector {
+            display: flex;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            height: 50px;
+        }
+
+        .qty-btn {
+            width: 40px;
+            background-color: var(--color-bg-light);
+            color: var(--color-text-main);
+            font-size: 1.2rem;
+            transition: background-color var(--transition-fast);
+        }
+
+        .qty-btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        .qty-input {
+            width: 60px;
+            text-align: center;
+            border: none;
+            border-left: 1px solid var(--color-border);
+            border-right: 1px solid var(--color-border);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+        
+        /* Remove default arrows from number input */
+        .qty-input::-webkit-outer-spin-button,
+        .qty-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .qty-input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .btn-add-cart {
+            flex: 1;
+            min-width: 200px;
+            height: 50px;
+        }
+
+        .action-icon-btn {
+            width: 50px;
+            height: 50px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-main);
+            font-size: 1.2rem;
+            transition: all var(--transition-fast);
+        }
+
+        .action-icon-btn:hover {
+            background-color: var(--color-bg-light);
+            color: var(--color-primary);
+        }
+
+        /* Meta List */
+        .meta-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            font-size: 0.95rem;
+        }
+
+        .meta-list li {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-list li span:first-child {
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        .meta-list li span:last-child {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        /* Tabs Section */
+        .product-tabs-section {
+            margin-bottom: 80px;
+        }
+
+        .tab-headers {
+            display: flex;
+            border-bottom: 2px solid var(--color-border);
+            margin-bottom: 30px;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .tab-headers::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .tab-btn {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-secondary);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .description-content p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* Reviews Layout */
+        .reviews-layout {
+            display: flex;
+            gap: 50px;
+        }
+
+        .reviews-summary {
+            width: 300px;
+            flex-shrink: 0;
+        }
+
+        .overall-rating {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .rating-bar-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .rating-bar-container {
+            flex: 1;
+            height: 8px;
+            background-color: var(--color-border);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .rating-bar-fill {
+            height: 100%;
+            background-color: var(--color-warning);
+        }
+
+        .reviews-list {
+            flex: 1;
+        }
+
+        .review-card {
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+        }
+
+        .review-card:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .verified-badge {
+            color: var(--color-success);
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
+        .review-date {
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        .review-text {
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .product-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .product-gallery {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+                position: static;
+            }
+            .reviews-layout {
+                flex-direction: column;
+            }
+            .reviews-summary {
+                width: 100%;
+                border-bottom: 1px solid var(--color-border);
+                padding-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .product-title {
+                font-size: 2rem;
+            }
+            .price-current {
+                font-size: 1.8rem;
+            }
+            .product-actions {
+                flex-direction: column;
+            }
+            .btn-add-cart, .btn-buy-now {
+                width: 100%;
+            }
+            .meta-list {
+                grid-template-columns: 1fr;
+            }
+            .tab-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Consistent) -->
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="action-label">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">0</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">0</span>
+                    <span class="cart-total" id="headerCartTotal">৳0.00</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item active"><a href="books.html">Books</a></li>
+                    <li class="nav-item"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                    <li class="nav-item"><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Mini Breadcrumb Header -->
+        <div class="page-header-mini">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <a href="books.html">Books</a>
+                    <span>/</span>
+                    <a href="books.html?cat=thriller">Thriller</a>
+                    <span>/</span>
+                    <span style="color: var(--color-primary); font-weight: 500;">The Silent Patient</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Overview Section -->
+        <section class="section pt-0">
+            <div class="container">
+                <div class="product-container">
+                    
+                    <!-- Left: Gallery -->
+                    <div class="product-gallery">
+                        <div class="main-image">
+                            <img id="mainBookImage" src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80" alt="The Silent Patient Book Cover">
+                        </div>
+                        <div class="thumbnail-list">
+                            <div class="thumbnail active" onclick="changeImage(this, 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80')">
+                                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=150&q=80" alt="Front Cover">
+                            </div>
+                            <div class="thumbnail" onclick="changeImage(this, 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80')">
+                                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=150&q=80" alt="Back Cover Snippet">
+                            </div>
+                            <div class="thumbnail" onclick="changeImage(this, 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=800&q=80')">
+                                <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=150&q=80" alt="Inside Pages">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Product Info -->
+                    <div class="product-info">
+                        <span class="product-category-meta">Psychological Thriller</span>
+                        <h1 class="product-title">The Silent Patient</h1>
+                        <a href="authors.html" class="product-author">By Alex Michaelides</a>
+                        
+                        <div class="product-rating-row">
+                            <div class="rating-stars">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                <span style="color: var(--color-text-main); font-size: 0.95rem; margin-left: 5px; font-weight: 500;">4.8</span>
+                            </div>
+                            <a href="#reviews" class="review-link" onclick="openTab(event, 'tab-reviews')">Read 1,240 Reviews</a>
+                        </div>
+
+                        <div class="product-price-box">
+                            <span class="price-current">৳ 510</span>
+                            <span class="price-old">৳ 600</span>
+                            <span class="discount-badge">-15%</span>
+                        </div>
+
+                        <div class="stock-status">
+                            <i class="fa-solid fa-circle-check"></i> In Stock (Ships in 24 hours)
+                        </div>
+
+                        <p class="short-description">
+                            Alicia Berenson’s life is seemingly perfect. A famous painter married to an in-demand fashion photographer, she lives in a grand house with big windows overlooking a park in one of London’s most desirable areas. One evening her husband Gabriel returns home late from a fashion shoot, and Alicia shoots him five times in the face, and then never speaks another word.
+                        </p>
+
+                        <div class="product-actions">
+                            <div class="quantity-selector">
+                                <button class="qty-btn" id="qtyMinus" aria-label="Decrease quantity"><i class="fa-solid fa-minus"></i></button>
+                                <input type="number" class="qty-input" id="qtyInput" value="1" min="1" max="10">
+                                <button class="qty-btn" id="qtyPlus" aria-label="Increase quantity"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            
+                            <button class="btn btn-primary btn-add-cart btn-lg" onclick="alert('Item added to cart!')">
+                                <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+                            </button>
+                            
+                            <button class="action-icon-btn" aria-label="Add to Wishlist" title="Add to Wishlist">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                            <button class="action-icon-btn" aria-label="Share" title="Share this book">
+                                <i class="fa-solid fa-share-nodes"></i>
+                            </button>
+                        </div>
+
+                        <!-- Meta Info List -->
+                        <ul class="meta-list">
+                            <li>
+                                <span>ISBN-13</span>
+                                <span>978-1250301697</span>
+                            </li>
+                            <li>
+                                <span>Publisher</span>
+                                <span>Celadon Books</span>
+                            </li>
+                            <li>
+                                <span>Language</span>
+                                <span>English</span>
+                            </li>
+                            <li>
+                                <span>Pages</span>
+                                <span>336</span>
+                            </li>
+                            <li>
+                                <span>Publication Date</span>
+                                <span>Feb 5, 2019</span>
+                            </li>
+                            <li>
+                                <span>Format</span>
+                                <span>Hardcover</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs Section -->
+        <section class="product-tabs-section">
+            <div class="container">
+                <div class="tab-headers">
+                    <button class="tab-btn active" onclick="openTab(event, 'tab-desc')">Description</button>
+                    <button class="tab-btn" onclick="openTab(event, 'tab-details')">Additional Details</button>
+                    <button class="tab-btn" onclick="openTab(event, 'tab-reviews')" id="reviews">Reviews (1,240)</button>
+                </div>
+
+                <!-- Tab 1: Description -->
+                <div class="tab-content active" id="tab-desc">
+                    <div class="description-content" style="max-width: 900px;">
+                        <p><strong>The instant #1 New York Times bestseller!</strong></p>
+                        <p>Alicia Berenson’s life is seemingly perfect. A famous painter married to an in-demand fashion photographer, she lives in a grand house with big windows overlooking a park in one of London’s most desirable areas. One evening her husband Gabriel returns home late from a fashion shoot, and Alicia shoots him five times in the face, and then never speaks another word.</p>
+                        <p>Alicia’s refusal to talk, or give any kind of explanation, turns a domestic tragedy into something far grander, a mystery that captures the public imagination and casts Alicia into notoriety. The price of her art skyrockets, and she, the silent patient, is hidden away from the tabloids and spotlight at the Grove, a secure forensic unit in North London.</p>
+                        <p>Theo Faber is a criminal psychotherapist who has waited a long time for the opportunity to work with Alicia. His determination to get her to talk and unravel the mystery of why she shot her husband takes him down a twisting path into his own motivations—a search for the truth that threatens to consume him...</p>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Additional Details -->
+                <div class="tab-content" id="tab-details">
+                    <div style="max-width: 600px;">
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 12px 0; color: var(--color-text-muted); width: 40%;">Weight</td>
+                                <td style="padding: 12px 0; font-weight: 500;">450 g</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 12px 0; color: var(--color-text-muted);">Dimensions</td>
+                                <td style="padding: 12px 0; font-weight: 500;">6.42 x 1.25 x 9.32 inches</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 12px 0; color: var(--color-text-muted);">Age Range</td>
+                                <td style="padding: 12px 0; font-weight: 500;">Adult</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 12px 0; color: var(--color-text-muted);">Edition</td>
+                                <td style="padding: 12px 0; font-weight: 500;">1st Edition</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 12px 0; color: var(--color-text-muted);">Print Type</td>
+                                <td style="padding: 12px 0; font-weight: 500;">High-Quality Newsprint</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Reviews -->
+                <div class="tab-content" id="tab-reviews">
+                    <div class="reviews-layout">
+                        <!-- Left: Summary -->
+                        <div class="reviews-summary">
+                            <h3 style="margin-bottom: 20px;">Customer Reviews</h3>
+                            <div class="overall-rating">4.8</div>
+                            <div class="rating-stars" style="margin-bottom: 10px; font-size: 1.2rem;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <p style="color: var(--color-text-muted); margin-bottom: 25px;">Based on 1,240 reviews</p>
+
+                            <!-- Breakdown Bars -->
+                            <div class="rating-bar-group">
+                                <span>5 star</span>
+                                <div class="rating-bar-container"><div class="rating-bar-fill" style="width: 82%;"></div></div>
+                                <span>82%</span>
+                            </div>
+                            <div class="rating-bar-group">
+                                <span>4 star</span>
+                                <div class="rating-bar-container"><div class="rating-bar-fill" style="width: 12%;"></div></div>
+                                <span>12%</span>
+                            </div>
+                            <div class="rating-bar-group">
+                                <span>3 star</span>
+                                <div class="rating-bar-container"><div class="rating-bar-fill" style="width: 4%;"></div></div>
+                                <span>4%</span>
+                            </div>
+                            <div class="rating-bar-group">
+                                <span>2 star</span>
+                                <div class="rating-bar-container"><div class="rating-bar-fill" style="width: 1%;"></div></div>
+                                <span>1%</span>
+                            </div>
+                            <div class="rating-bar-group">
+                                <span>1 star</span>
+                                <div class="rating-bar-container"><div class="rating-bar-fill" style="width: 1%;"></div></div>
+                                <span>1%</span>
+                            </div>
+
+                            <button class="btn btn-outline-white" style="border-color: var(--color-primary); color: var(--color-primary); width: 100%; margin-top: 30px;">Write a Review</button>
+                        </div>
+
+                        <!-- Right: Comments -->
+                        <div class="reviews-list">
+                            <!-- Review 1 -->
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div>
+                                        <span class="reviewer-name">Sarah Ahmed</span>
+                                        <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Purchase</span>
+                                    </div>
+                                    <span class="review-date">Oct 12, 2026</span>
+                                </div>
+                                <div class="rating-stars" style="font-size: 0.9rem;">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                </div>
+                                <h4 style="margin-top: 10px; font-size: 1.05rem;">Absolutely Mind-Blowing!</h4>
+                                <p class="review-text">I could not put this down. The plot twists were incredible. Just when I thought I had it figured out, the ending completely caught me off guard. The quality of the physical book delivery from NovaBooks was perfect too. Highly recommend!</p>
+                            </div>
+
+                            <!-- Review 2 -->
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div>
+                                        <span class="reviewer-name">Tanvir Hasan</span>
+                                        <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Purchase</span>
+                                    </div>
+                                    <span class="review-date">Sep 28, 2026</span>
+                                </div>
+                                <div class="rating-stars" style="font-size: 0.9rem;">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                </div>
+                                <h4 style="margin-top: 10px; font-size: 1.05rem;">Great thriller, slow start.</h4>
+                                <p class="review-text">The first few chapters took a while to build up, but once the psychotherapist's investigation really gets going, it becomes a fantastic read. The ending justifies the hype.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Books Section -->
+        <section class="section bg-light">
+            <div class="container">
+                <div class="section-header">
+                    <h2>You May Also Like</h2>
+                    <div class="swiper-navigation">
+                        <div class="swiper-button-prev-custom" id="relatedPrev"><i class="fa-solid fa-arrow-left"></i></div>
+                        <div class="swiper-button-next-custom" id="relatedNext"><i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </div>
+
+                <div class="swiper related-swiper">
+                    <div class="swiper-wrapper">
+                        <!-- Book Card (Same structure as index/books grid) -->
+                        <div class="swiper-slide">
+                            <div class="book-card" data-id="10">
+                                <div class="book-cover">
+                                    <img src="https://images.unsplash.com/photo-1626618012641-bfbca5a31239?auto=format&fit=crop&w=400&q=80" alt="Gone Girl" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Thriller</span>
+                                    <h3 class="book-title"><a href="#">Gone Girl</a></h3>
+                                    <a href="#" class="book-author">Gillian Flynn</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price"><span class="current-price">৳ 550</span></div>
+                                        <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="book-card" data-id="11">
+                                <div class="book-cover">
+                                    <img src="https://images.unsplash.com/photo-1587876931563-3d078c52089b?auto=format&fit=crop&w=400&q=80" alt="The Girl on the Train" loading="lazy">
+                                    <div class="book-actions">
+                                        <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                        <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="book-info">
+                                    <span class="book-category">Mystery</span>
+                                    <h3 class="book-title"><a href="#">The Girl on the Train</a></h3>
+                                    <a href="#" class="book-author">Paula Hawkins</a>
+                                    <div class="book-rating">
+                                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+                                    </div>
+                                    <div class="book-price-row">
+                                        <div class="price"><span class="current-price">৳ 480</span></div>
+                                        <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- More placeholder slides would go here to fill the carousel, reusing the structure above -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="main-footer">
+        <!-- Omitted identical standard footer content to save space, but it uses the exact same layout as index.html -->
+        <div class="footer-top"><div class="container"><p>&copy; 2026 NovaBooks. All rights reserved.</p></div></div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // --- Page Specific JavaScript ---
+
+        // 1. Gallery Image Swapping
+        function changeImage(element, imageSrc) {
+            // Update main image source
+            document.getElementById('mainBookImage').src = imageSrc;
+            
+            // Manage active state on thumbnails
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // 2. Quantity Selector Logic
+        const qtyInput = document.getElementById('qtyInput');
+        const qtyPlus = document.getElementById('qtyPlus');
+        const qtyMinus = document.getElementById('qtyMinus');
+
+        qtyPlus.addEventListener('click', () => {
+            let val = parseInt(qtyInput.value);
+            if(val < 10) qtyInput.value = val + 1;
+        });
+
+        qtyMinus.addEventListener('click', () => {
+            let val = parseInt(qtyInput.value);
+            if(val > 1) qtyInput.value = val - 1;
+        });
+
+        // Prevent invalid input typing
+        qtyInput.addEventListener('change', (e) => {
+            let val = parseInt(e.target.value);
+            if(isNaN(val) || val < 1) e.target.value = 1;
+            if(val > 10) e.target.value = 10;
+        });
+
+        // 3. Tab Switching Logic
+        function openTab(evt, tabId) {
+            // If called from an anchor link (like the reviews link at top), prevent default jump
+            if(evt) evt.preventDefault();
+
+            // Hide all tab content
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+
+            // Show current tab and add active class to button
+            document.getElementById(tabId).classList.add('active');
+            
+            // Find the button that triggered it and activate it.
+            // If called from external link, manually find the target button
+            if(evt && evt.currentTarget.classList.contains('tab-btn')) {
+                evt.currentTarget.classList.add('active');
+            } else {
+                // If it was clicked from the "Read X Reviews" link
+                document.getElementById('reviews').classList.add('active');
+                
+                // Smooth scroll down to tabs
+                const tabsSection = document.querySelector('.product-tabs-section');
+                const offset = 100; // Account for sticky header
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = tabsSection.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        }
+
+        // 4. Initialize Swiper for Related Books
+        document.addEventListener('DOMContentLoaded', function() {
+            if(typeof Swiper !== 'undefined') {
+                new Swiper('.related-swiper', {
+                    slidesPerView: 2,
+                    spaceBetween: 15,
+                    navigation: {
+                        nextEl: '#relatedNext',
+                        prevEl: '#relatedPrev',
+                    },
+                    breakpoints: {
+                        576: { slidesPerView: 2, spaceBetween: 20 },
+                        768: { slidesPerView: 3, spaceBetween: 20 },
+                        1024: { slidesPerView: 4, spaceBetween: 24 }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

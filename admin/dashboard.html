@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="NovaBooks Admin Dashboard">
+    <title>Admin Dashboard | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Global CSS (From parent directory) -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Admin Specific Styles -->
+    <style>
+        :root {
+            --sidebar-width: 260px;
+            --admin-header-height: 70px;
+            --admin-bg: #f4f7fe;
+        }
+
+        body {
+            background-color: var(--admin-bg);
+            overflow-x: hidden;
+        }
+
+        /* Admin Layout Structure */
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 1000;
+            transition: left var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .sidebar-header {
+            height: var(--admin-header-height);
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header .logo {
+            color: var(--color-white);
+            font-size: 1.5rem;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 4px;
+        }
+
+        .nav-item-admin {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            border-left: 4px solid transparent;
+            margin-bottom: 5px;
+        }
+
+        .nav-item-admin i {
+            width: 24px;
+            font-size: 1.1rem;
+            margin-right: 10px;
+        }
+
+        .nav-item-admin:hover, .nav-item-admin.active {
+            color: var(--color-white);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left-color: var(--color-secondary);
+        }
+
+        .sidebar-footer {
+            padding: 20px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Content Area */
+        .admin-main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: margin-left var(--transition-normal);
+        }
+
+        /* Admin Header */
+        .admin-topbar {
+            height: var(--admin-header-height);
+            background-color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .sidebar-toggle-btn {
+            font-size: 1.2rem;
+            color: var(--color-text-main);
+            display: none; /* Only visible on mobile */
+        }
+
+        .admin-search {
+            position: relative;
+            width: 300px;
+        }
+
+        .admin-search input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            background-color: var(--admin-bg);
+            font-size: 0.9rem;
+        }
+
+        .admin-search i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-muted);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .topbar-icon {
+            position: relative;
+            font-size: 1.2rem;
+            color: var(--color-text-muted);
+            cursor: pointer;
+        }
+
+        .topbar-icon .badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background-color: var(--color-danger);
+            color: var(--color-white);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 5px;
+            border-radius: var(--radius-full);
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .admin-profile img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .admin-profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-profile-info span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-main);
+        }
+
+        .admin-profile-info small {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Dashboard Content */
+        .admin-content {
+            padding: 30px;
+            flex: 1;
+        }
+
+        .page-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title-row h1 {
+            font-size: 1.8rem;
+            color: var(--color-primary);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--color-white);
+            border-radius: var(--radius-md);
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--color-secondary);
+        }
+        
+        .stat-card:nth-child(2)::before { background-color: var(--color-primary); }
+        .stat-card:nth-child(3)::before { background-color: var(--color-success); }
+        .stat-card:nth-child(4)::before { background-color: var(--color-warning); }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background-color: rgba(230, 126, 34, 0.1);
+            color: var(--color-secondary);
+        }
+
+        .stat-card:nth-child(2) .stat-icon { background-color: rgba(26, 54, 93, 0.1); color: var(--color-primary); }
+        .stat-card:nth-child(3) .stat-icon { background-color: rgba(56, 161, 105, 0.1); color: var(--color-success); }
+        .stat-card:nth-child(4) .stat-icon { background-color: rgba(246, 173, 85, 0.1); color: var(--color-warning); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text-main);
+            margin-bottom: 5px;
+            font-family: var(--font-heading);
+        }
+
+        .stat-trend {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trend-up { color: var(--color-success); }
+        .trend-down { color: var(--color-danger); }
+
+        /* Charts & Tables Area */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .admin-card {
+            background-color: var(--color-white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 25px;
+        }
+
+        .admin-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .admin-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .admin-card-action {
+            font-size: 0.85rem;
+            color: var(--color-secondary);
+            font-weight: 600;
+        }
+
+        /* Recent Orders Table */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 2px solid var(--color-border);
+            color: var(--color-text-muted);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .admin-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--color-border);
+            vertical-align: middle;
+            font-size: 0.9rem;
+            color: var(--color-text-main);
+        }
+
+        .admin-table tbody tr:hover {
+            background-color: var(--admin-bg);
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .status-pending { background-color: rgba(226, 232, 240, 0.8); color: var(--color-text-main); }
+        .status-processing { background-color: rgba(246, 173, 85, 0.2); color: var(--color-warning); }
+        .status-shipped { background-color: rgba(66, 153, 225, 0.1); color: #3182ce; }
+        .status-delivered { background-color: rgba(56, 161, 105, 0.1); color: var(--color-success); }
+        .status-cancelled { background-color: rgba(229, 62, 62, 0.1); color: var(--color-danger); }
+
+        .action-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .action-icon:hover {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+
+        /* Top Books List */
+        .top-books-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .top-book-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .top-book-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .top-book-img {
+            width: 50px;
+            height: 70px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+        }
+
+        .top-book-info {
+            flex: 1;
+        }
+
+        .top-book-title {
+            font-weight: 600;
+            color: var(--color-primary);
+            font-size: 0.95rem;
+            margin-bottom: 3px;
+        }
+
+        .top-book-sales {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        .top-book-revenue {
+            font-weight: 700;
+            color: var(--color-text-main);
+            font-size: 0.95rem;
+        }
+
+        /* Responsive Breakpoints for Admin Panel */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .sidebar-toggle-btn {
+                display: block; /* Show hamburger in topbar */
+            }
+            .admin-sidebar {
+                left: calc(var(--sidebar-width) * -1); /* Hide off screen */
+            }
+            .admin-sidebar.active {
+                left: 0;
+            }
+            .admin-main {
+                margin-left: 0;
+            }
+            .admin-search {
+                display: none; /* Hide search on small screens to save header space */
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Table responsive override for admin */
+            .admin-table thead {
+                display: none;
+            }
+            .admin-table, .admin-table tbody, .admin-table tr, .admin-table td {
+                display: block;
+                width: 100%;
+            }
+            .admin-table tr {
+                margin-bottom: 15px;
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+            }
+            .admin-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px dashed var(--color-border);
+                padding: 10px 15px;
+                text-align: right;
+            }
+            .admin-table td:last-child {
+                border-bottom: none;
+            }
+            .admin-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--color-text-muted);
+                text-transform: uppercase;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-content {
+                padding: 15px;
+            }
+            .page-title-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <a href="../index.html" class="logo" target="_blank" title="View Storefront">
+                    <span class="logo-icon"><i class="fa-solid fa-book-open" style="color: var(--color-secondary);"></i></span>
+                    <span class="logo-text">Nova<span class="highlight" style="color: var(--color-secondary);">Books</span></span>
+                </a>
+            </div>
+            
+            <div class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item-admin active">
+                    <i class="fa-solid fa-chart-pie"></i> Dashboard
+                </a>
+                <a href="#" class="nav-item-admin">
+                    <i class="fa-solid fa-book"></i> Catalog / Books
+                </a>
+                <a href="#" class="nav-item-admin">
+                    <i class="fa-solid fa-tags"></i> Categories
+                </a>
+                <a href="#" class="nav-item-admin">
+                    <i class="fa-solid fa-cart-shopping"></i> Orders
+                    <span class="badge" style="background-color: var(--color-secondary); color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; margin-left: auto;">New</span>
+                </a>
+                <a href="#" class="nav-item-admin">
+                    <i class="fa-solid fa-users"></i> Customers
+                </a>
+                <a href="#" class="nav-item-admin">
+                    <i class="fa-solid fa-star"></i> Reviews
+                </a>
+                
+                <div style="margin: 15px 25px; font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.4); font-weight: 700; letter-spacing: 1px;">System</div>
+                
+                <a href="#" class="nav-item-admin">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+                <a href="#" class="nav-item-admin">
+                    <i class="fa-solid fa-palette"></i> Appearance
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="../login.html" class="nav-item-admin" style="padding: 0; color: rgba(255,255,255,0.6);">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="menu-overlay" id="adminSidebarOverlay" style="z-index: 999;"></div>
+
+        <!-- Main Content -->
+        <div class="admin-main">
+            
+            <!-- Top Navbar -->
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle Sidebar">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    
+                    <div class="admin-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search orders, books, or customers...">
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="topbar-icon" title="View Store">
+                        <a href="../index.html" target="_blank" style="color: inherit;"><i class="fa-solid fa-globe"></i></a>
+                    </div>
+                    <div class="topbar-icon">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    
+                    <div style="width: 1px; height: 30px; background-color: var(--color-border); margin: 0 10px;"></div>
+
+                    <div class="admin-profile">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80" alt="Admin Avatar">
+                        <div class="admin-profile-info">
+                            <span>Admin User</span>
+                            <small>Store Manager</small>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Body -->
+            <main class="admin-content">
+                
+                <div class="page-title-row">
+                    <h1>Dashboard Overview</h1>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-outline-white" style="border-color: var(--color-border); color: var(--color-text-main); background: white;">
+                            <i class="fa-regular fa-calendar"></i> Last 30 Days <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i>
+                        </button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-download"></i> Report</button>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="stats-grid">
+                    <!-- Stat 1 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Total Revenue</span>
+                            <div class="stat-icon"><i class="fa-solid fa-bangladeshi-taka-sign"></i></div>
+                        </div>
+                        <div class="stat-value">৳ 245,600</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fa-solid fa-arrow-trend-up"></i> +12.5% vs last month
+                        </div>
+                    </div>
+
+                    <!-- Stat 2 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Total Orders</span>
+                            <div class="stat-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                        </div>
+                        <div class="stat-value">482</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fa-solid fa-arrow-trend-up"></i> +8.2% vs last month
+                        </div>
+                    </div>
+
+                    <!-- Stat 3 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Total Customers</span>
+                            <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                        </div>
+                        <div class="stat-value">3,124</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fa-solid fa-arrow-trend-up"></i> +5.4% vs last month
+                        </div>
+                    </div>
+
+                    <!-- Stat 4 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Total Books</span>
+                            <div class="stat-icon"><i class="fa-solid fa-book"></i></div>
+                        </div>
+                        <div class="stat-value">12,450</div>
+                        <div class="stat-trend trend-down">
+                            <i class="fa-solid fa-arrow-trend-down"></i> -2.1% low stock items
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts & Top Items -->
+                <div class="dashboard-grid">
+                    
+               <!-- Sales Chart -->
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h3 class="admin-card-title">Revenue Overview</h3>
+                            <div style="font-size: 0.85rem; color: var(--color-text-muted);">Current Year 2026</div>
+                        </div>
+                        <!-- FIXED WRAPPER CONTAINER TO STOP INFINITE RESIZE LOOP -->
+                        <div style="position: relative; height: 280px; width: 100%;">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Top Selling Books -->
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h3 class="admin-card-title">Top Selling Books</h3>
+                            <a href="#" class="admin-card-action">View All</a>
+                        </div>
+                        
+                        <div class="top-books-list">
+                            <div class="top-book-item">
+                                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=100&q=80" alt="Book" class="top-book-img">
+                                <div class="top-book-info">
+                                    <div class="top-book-title">The Silent Patient</div>
+                                    <div class="top-book-sales">145 Sales</div>
+                                </div>
+                                <div class="top-book-revenue">৳ 73,950</div>
+                            </div>
+
+                            <div class="top-book-item">
+                                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=100&q=80" alt="Book" class="top-book-img">
+                                <div class="top-book-info">
+                                    <div class="top-book-title">Atomic Habits</div>
+                                    <div class="top-book-sales">120 Sales</div>
+                                </div>
+                                <div class="top-book-revenue">৳ 54,000</div>
+                            </div>
+
+                            <div class="top-book-item">
+                                <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=100&q=80" alt="Book" class="top-book-img">
+                                <div class="top-book-info">
+                                    <div class="top-book-title">Sapiens</div>
+                                    <div class="top-book-sales">98 Sales</div>
+                                </div>
+                                <div class="top-book-revenue">৳ 73,500</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Recent Orders Table -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Recent Orders</h3>
+                        <a href="#" class="admin-card-action">Manage Orders</a>
+                    </div>
+                    
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="Order ID"><strong>#NB-74892</strong></td>
+                                <td data-label="Customer">Sarnab Bhattacharjee</td>
+                                <td data-label="Date">Sept 20, 2026</td>
+                                <td data-label="Amount">৳ 1,020</td>
+                                <td data-label="Status"><span class="status-badge status-processing">Processing</span></td>
+                                <td data-label="Actions">
+                                    <button class="action-icon" title="View"><i class="fa-regular fa-eye"></i></button>
+                                    <button class="action-icon" title="Edit Status"><i class="fa-solid fa-pen-to-square"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Order ID"><strong>#NB-74891</strong></td>
+                                <td data-label="Customer">Nusrat Jahan</td>
+                                <td data-label="Date">Sept 19, 2026</td>
+                                <td data-label="Amount">৳ 450</td>
+                                <td data-label="Status"><span class="status-badge status-pending">Pending</span></td>
+                                <td data-label="Actions">
+                                    <button class="action-icon" title="View"><i class="fa-regular fa-eye"></i></button>
+                                    <button class="action-icon" title="Edit Status"><i class="fa-solid fa-pen-to-square"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Order ID"><strong>#NB-74890</strong></td>
+                                <td data-label="Customer">Tanvir Hasan</td>
+                                <td data-label="Date">Sept 19, 2026</td>
+                                <td data-label="Amount">৳ 2,150</td>
+                                <td data-label="Status"><span class="status-badge status-shipped">Shipped</span></td>
+                                <td data-label="Actions">
+                                    <button class="action-icon" title="View"><i class="fa-regular fa-eye"></i></button>
+                                    <button class="action-icon" title="Edit Status"><i class="fa-solid fa-pen-to-square"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Order ID"><strong>#NB-74889</strong></td>
+                                <td data-label="Customer">Sadia Islam</td>
+                                <td data-label="Date">Sept 18, 2026</td>
+                                <td data-label="Amount">৳ 640</td>
+                                <td data-label="Status"><span class="status-badge status-delivered">Delivered</span></td>
+                                <td data-label="Actions">
+                                    <button class="action-icon" title="View"><i class="fa-regular fa-eye"></i></button>
+                                    <button class="action-icon" title="Edit Status"><i class="fa-solid fa-pen-to-square"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Order ID"><strong>#NB-74888</strong></td>
+                                <td data-label="Customer">Rahim Uddin</td>
+                                <td data-label="Date">Sept 17, 2026</td>
+                                <td data-label="Amount">৳ 1,200</td>
+                                <td data-label="Status"><span class="status-badge status-cancelled">Cancelled</span></td>
+                                <td data-label="Actions">
+                                    <button class="action-icon" title="View"><i class="fa-regular fa-eye"></i></button>
+                                    <button class="action-icon" title="Edit Status"><i class="fa-solid fa-pen-to-square"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+   <!-- Chart.js for Admin Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        let revenueChartInstance = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            /* --- Mobile Sidebar Toggle Logic --- */
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const adminSidebar = document.getElementById('adminSidebar');
+            const sidebarOverlay = document.getElementById('adminSidebarOverlay');
+            const body = document.body;
+
+            function toggleSidebar() {
+                adminSidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+                body.classList.toggle('no-scroll');
+            }
+
+            if(sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+            if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+
+            /* --- Chart.js Initialization (Infinite-Loop Proof) --- */
+            const ctx = document.getElementById('salesChart');
+            if(ctx) {
+                if (revenueChartInstance !== null) {
+                    revenueChartInstance.destroy();
+                }
+
+                revenueChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                        datasets: [{
+                            label: 'Revenue (BDT)',
+                            data: [150000, 180000, 160000, 210000, 190000, 230000, 220000, 260000, 245600],
+                            borderColor: '#1a365d',
+                            backgroundColor: 'rgba(26, 54, 93, 0.1)',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#e67e22',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#e67e22',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // CRITICAL: Prevents vertical feedback loops
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += '৳ ' + context.parsed.y.toLocaleString();
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    borderDash: [5, 5],
+                                    color: '#e2e8f0'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return '৳ ' + (value/1000) + 'k';
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

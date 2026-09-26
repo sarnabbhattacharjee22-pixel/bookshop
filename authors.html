@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Discover popular and bestselling authors at NovaBooks. Browse their biographies and book collections.">
+    <title>Authors | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Page Specific Styles for Authors -->
+    <style>
+        .page-header {
+            background-color: var(--color-bg-light);
+            padding: 50px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 50px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb a {
+            color: var(--color-primary);
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .page-description {
+            color: var(--color-text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Featured Author Spotlight */
+        .spotlight-section {
+            margin-bottom: 80px;
+        }
+
+        .spotlight-card {
+            background-color: var(--color-primary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            color: var(--color-white);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .spotlight-image {
+            flex: 1;
+            max-width: 450px;
+            height: 100%;
+        }
+
+        .spotlight-image img {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            object-fit: cover;
+        }
+
+        .spotlight-content {
+            flex: 2;
+            padding: 50px;
+        }
+
+        .spotlight-tag {
+            display: inline-block;
+            background-color: var(--color-secondary);
+            color: var(--color-white);
+            padding: 5px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .spotlight-name {
+            font-size: 2.8rem;
+            color: var(--color-white);
+            margin-bottom: 10px;
+        }
+
+        .spotlight-genre {
+            font-size: 1.1rem;
+            color: var(--color-warning);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .spotlight-bio {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+            max-width: 600px;
+        }
+
+        .spotlight-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+        }
+
+        .spotlight-stat-item strong {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--color-white);
+        }
+
+        .spotlight-stat-item span {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Authors Directory */
+        .authors-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .alphabet-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .alpha-btn {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-bg-light);
+            color: var(--color-text-main);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid var(--color-border);
+            transition: all var(--transition-fast);
+        }
+
+        .alpha-btn:hover, .alpha-btn.active {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+
+        .search-author {
+            position: relative;
+            width: 250px;
+        }
+
+        .search-author input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            font-family: var(--font-body);
+        }
+
+        .search-author i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-muted);
+        }
+
+        /* Authors Grid */
+        .authors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .author-card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 30px 20px;
+            text-align: center;
+            transition: all var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .author-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+            border-color: var(--color-secondary);
+        }
+
+        .author-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid var(--color-bg-light);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-normal);
+        }
+
+        .author-card:hover .author-photo {
+            transform: scale(1.05);
+            border-color: rgba(230, 126, 34, 0.2);
+        }
+
+        .author-name {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            color: var(--color-primary);
+            margin-bottom: 5px;
+        }
+
+        .author-genre {
+            color: var(--color-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .author-bio-short {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .author-books-count {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-text-main);
+            margin-bottom: 20px;
+            padding: 5px 15px;
+            background-color: var(--color-bg-light);
+            border-radius: var(--radius-full);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .spotlight-card {
+                flex-direction: column;
+            }
+            .spotlight-image {
+                max-width: 100%;
+                width: 100%;
+            }
+            .spotlight-image img {
+                min-height: 300px;
+                height: 300px;
+            }
+            .spotlight-content {
+                padding: 40px 30px;
+                text-align: center;
+            }
+            .spotlight-stats {
+                justify-content: center;
+            }
+            .authors-toolbar {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+            .search-author {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+            .spotlight-name {
+                font-size: 2.2rem;
+            }
+            .spotlight-stats {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            .authors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Consistent) -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span class="top-bar-text"><i class="fa-solid fa-truck-fast"></i> Free shipping inside Bangladesh on orders over ৳1500!</span>
+                <div class="top-bar-links">
+                    <a href="contact.html">Help Center</a>
+                    <a href="orders.html">Track Order</a>
+                    <div class="currency-selector">
+                        <span>BDT (৳)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="action-label">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">0</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">0</span>
+                    <span class="cart-total" id="headerCartTotal">৳0.00</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="books.html">Books</a></li>
+                    <li class="nav-item"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item active"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                    <li class="nav-item"><a href="about.html">About</a></li>
+                    <li class="nav-item"><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span style="color: var(--color-primary); font-weight: 500;">Authors</span>
+                </div>
+                <h1 class="page-title">Meet Our Authors</h1>
+                <p class="page-description">Discover the brilliant minds behind your favorite stories. Explore their biographies, achievements, and complete book collections.</p>
+            </div>
+        </section>
+
+        <section class="section pt-0">
+            <div class="container">
+                
+                <!-- Spotlight Section -->
+                <div class="spotlight-section">
+                    <div class="spotlight-card">
+                        <div class="spotlight-image">
+                            <img src="https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&w=600&q=80" alt="Author Spotlight">
+                        </div>
+                        <div class="spotlight-content">
+                            <span class="spotlight-tag">Author of the Month</span>
+                            <h2 class="spotlight-name">Alex Michaelides</h2>
+                            <div class="spotlight-genre">Psychological Thriller / Mystery</div>
+                            <p class="spotlight-bio">
+                                Born in Cyprus to a Greek-Cypriot father and English mother, Alex Michaelides has captivated millions with his intricate psychological thrillers. He read English literature at Cambridge University and received an MA in screenwriting from the American Film Institute. His debut novel, <em>The Silent Patient</em>, became an instant global phenomenon.
+                            </p>
+                            <div class="spotlight-stats">
+                                <div class="spotlight-stat-item">
+                                    <strong>3</strong>
+                                    <span>Published Books</span>
+                                </div>
+                                <div class="spotlight-stat-item">
+                                    <strong>#1</strong>
+                                    <span>NYT Bestseller</span>
+                                </div>
+                                <div class="spotlight-stat-item">
+                                    <strong>4.8</strong>
+                                    <span>Avg. Rating</span>
+                                </div>
+                            </div>
+                            <a href="books.html?author=alex-michaelides" class="btn btn-secondary btn-lg">View All Books by Alex</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Directory Toolbar -->
+                <div class="authors-toolbar">
+                    <div class="alphabet-filter">
+                        <a href="#" class="alpha-btn active">All</a>
+                        <a href="#" class="alpha-btn">A</a>
+                        <a href="#" class="alpha-btn">B</a>
+                        <a href="#" class="alpha-btn">C</a>
+                        <a href="#" class="alpha-btn">D</a>
+                        <a href="#" class="alpha-btn">F</a>
+                        <a href="#" class="alpha-btn">G</a>
+                        <a href="#" class="alpha-btn">H</a>
+                        <a href="#" class="alpha-btn">J</a>
+                        <a href="#" class="alpha-btn">S</a>
+                        <a href="#" class="alpha-btn">Y</a>
+                    </div>
+                    
+                    <div class="search-author">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search authors...">
+                    </div>
+                </div>
+
+                <!-- Authors Grid -->
+                <div class="authors-grid">
+                    
+                    <!-- Author 1 -->
+                    <div class="author-card">
+                        <img src="https://images.unsplash.com/photo-1558222218-b7b54eede3f3?auto=format&fit=crop&w=300&q=80" alt="James Clear" class="author-photo">
+                        <h3 class="author-name">James Clear</h3>
+                        <span class="author-genre">Self-Development</span>
+                        <p class="author-bio-short">Writer and speaker focused on habits, decision-making, and continuous improvement. Author of the #1 New York Times bestseller, Atomic Habits.</p>
+                        <div class="author-books-count">4 Published Books</div>
+                        <a href="books.html?author=james-clear" class="btn btn-outline-white" style="border-color: var(--color-border); color: var(--color-primary); width: 100%;">View Books</a>
+                    </div>
+
+                    <!-- Author 2 -->
+                    <div class="author-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" alt="Yuval Noah Harari" class="author-photo">
+                        <h3 class="author-name">Yuval Noah Harari</h3>
+                        <span class="author-genre">History & Science</span>
+                        <p class="author-bio-short">Historian, philosopher, and the bestselling author of Sapiens: A Brief History of Humankind, Homo Deus, and 21 Lessons for the 21st Century.</p>
+                        <div class="author-books-count">6 Published Books</div>
+                        <a href="books.html?author=yuval-noah" class="btn btn-outline-white" style="border-color: var(--color-border); color: var(--color-primary); width: 100%;">View Books</a>
+                    </div>
+
+                    <!-- Author 3 -->
+                    <div class="author-card">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=300&q=80" alt="Gillian Flynn" class="author-photo">
+                        <h3 class="author-name">Gillian Flynn</h3>
+                        <span class="author-genre">Mystery & Thriller</span>
+                        <p class="author-bio-short">American author and television critic. Known for her wildly successful psychological thriller novels including Gone Girl, Sharp Objects, and Dark Places.</p>
+                        <div class="author-books-count">5 Published Books</div>
+                        <a href="books.html?author=gillian-flynn" class="btn btn-outline-white" style="border-color: var(--color-border); color: var(--color-primary); width: 100%;">View Books</a>
+                    </div>
+
+                    <!-- Author 4 -->
+                    <div class="author-card">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80" alt="Frank Herbert" class="author-photo">
+                        <h3 class="author-name">Frank Herbert</h3>
+                        <span class="author-genre">Science Fiction</span>
+                        <p class="author-bio-short">Critically acclaimed and commercially successful American science fiction author best known for the 1965 novel Dune and its five sequels.</p>
+                        <div class="author-books-count">12 Published Books</div>
+                        <a href="books.html?author=frank-herbert" class="btn btn-outline-white" style="border-color: var(--color-border); color: var(--color-primary); width: 100%;">View Books</a>
+                    </div>
+
+                    <!-- Author 5 -->
+                    <div class="author-card">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" alt="Harper Lee" class="author-photo">
+                        <h3 class="author-name">Harper Lee</h3>
+                        <span class="author-genre">Classic Literature</span>
+                        <p class="author-bio-short">American novelist best known for her 1960 novel To Kill a Mockingbird. It won the 1961 Pulitzer Prize and has become a classic of modern American literature.</p>
+                        <div class="author-books-count">2 Published Books</div>
+                        <a href="books.html?author=harper-lee" class="btn btn-outline-white" style="border-color: var(--color-border); color: var(--color-primary); width: 100%;">View Books</a>
+                    </div>
+
+                    <!-- Author 6 -->
+                    <div class="author-card">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80" alt="Douglas Crockford" class="author-photo">
+                        <h3 class="author-name">Douglas Crockford</h3>
+                        <span class="author-genre">Technology & Programming</span>
+                        <p class="author-bio-short">American computer programmer and entrepreneur who was involved in the development of the JavaScript language and created the JSON data format.</p>
+                        <div class="author-books-count">3 Published Books</div>
+                        <a href="books.html?author=douglas-crockford" class="btn btn-outline-white" style="border-color: var(--color-border); color: var(--color-primary); width: 100%;">View Books</a>
+                    </div>
+
+                    <!-- Author 7 -->
+                    <div class="author-card">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Paula Hawkins" class="author-photo">
+                        <h3 class="author-name">Paula Hawkins</h3>
+                        <span class="author-genre">Mystery & Thriller</span>
+                        <p class="author-bio-short">Zimbabwe-born British author, best known for her bestselling psychological thriller novel The Girl on the Train.</p>
+                        <div class="author-books-count">4 Published Books</div>
+                        <a href="books.html?author=paula-hawkins" class="btn btn-outline-white" style="border-color: var(--color-border); color: var(--color-primary); width: 100%;">View Books</a>
+                    </div>
+
+                    <!-- Author 8 -->
+                    <div class="author-card">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80" alt="George Orwell" class="author-photo">
+                        <h3 class="author-name">George Orwell</h3>
+                        <span class="author-genre">Dystopian Fiction</span>
+                        <p class="author-bio-short">English novelist, essayist, journalist, and critic. His work is characterised by lucid prose, biting social criticism, and opposition to totalitarianism.</p>
+                        <div class="author-books-count">9 Published Books</div>
+                        <a href="books.html?author=george-orwell" class="btn btn-outline-white" style="border-color: var(--color-border); color: var(--color-primary); width: 100%;">View Books</a>
+                    </div>
+
+                </div>
+                
+                <!-- Load More -->
+                <div style="text-align: center;">
+                    <button class="btn btn-outline-white btn-lg" style="border-color: var(--color-primary); color: var(--color-primary); min-width: 200px;">
+                        <i class="fa-solid fa-rotate-right"></i> Load More Authors
+                    </button>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col brand-col">
+                        <a href="index.html" class="footer-logo">
+                            <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                            <span class="logo-text">NovaBooks</span>
+                        </a>
+                        <p class="footer-desc">Your ultimate destination for books in Bangladesh. We provide a vast collection of fiction, non-fiction, academic, and professional books at the best prices.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="deals.html">Special Offers</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Top Categories</h3>
+                        <ul>
+                            <li><a href="books.html?cat=fiction">Fiction</a></li>
+                            <li><a href="books.html?cat=history">History</a></li>
+                            <li><a href="books.html?cat=academic">Academic</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 123 Book Avenue, Dhanmondi, Dhaka</li>
+                            <li><i class="fa-solid fa-phone"></i> +880 1712-345678</li>
+                            <li><i class="fa-solid fa-envelope"></i> support@novabooks.com.bd</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 NovaBooks. All rights reserved.</p>
+                    
+                    <!-- CORRECTED FIXED PAYMENT LOGOS -->
+                    <div class="payment-methods">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/BKash_Logo.svg/2560px-BKash_Logo.svg.png" alt="bKash" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="MasterCard" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="footer-payment-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Alphabetical filtering interaction (UI Demo)
+        document.addEventListener('DOMContentLoaded', () => {
+            const alphaBtns = document.querySelectorAll('.alpha-btn');
+            alphaBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alphaBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Find the best deals, discounts, and flash sales on books at NovaBooks.">
+    <title>Hot Deals & Offers | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Page Specific Styles for Deals -->
+    <style>
+        /* Flash Sale Hero */
+        .deals-hero {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: var(--color-white);
+            padding: 60px 0;
+            margin-bottom: 60px;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .deals-title {
+            font-size: 3.5rem;
+            color: var(--color-white);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .deals-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Countdown Timer */
+        .flash-countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .flash-countdown-item {
+            background-color: var(--color-white);
+            color: var(--color-danger);
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .flash-countdown-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .flash-countdown-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 5px;
+            color: var(--color-text-main);
+        }
+
+        /* Bundle Section */
+        .bundle-section {
+            margin-bottom: 80px;
+        }
+
+        .bundle-card {
+            display: flex;
+            background-color: var(--color-bg-light);
+            border: 1px dashed var(--color-secondary);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            gap: 30px;
+            align-items: center;
+            margin-bottom: 30px;
+            transition: all var(--transition-normal);
+        }
+
+        .bundle-card:hover {
+            box-shadow: var(--shadow-md);
+            border-style: solid;
+        }
+
+        .bundle-images {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bundle-img-wrapper {
+            width: 120px;
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        
+        .bundle-plus {
+            font-size: 1.5rem;
+            color: var(--color-text-muted);
+            font-weight: 700;
+        }
+
+        .bundle-info {
+            flex: 1;
+        }
+
+        .bundle-tag {
+            display: inline-block;
+            background-color: var(--color-secondary);
+            color: var(--color-white);
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .bundle-title {
+            font-size: 1.6rem;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+        }
+
+        .bundle-desc {
+            color: var(--color-text-muted);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .bundle-price-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .bundle-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-danger);
+        }
+
+        .bundle-old-price {
+            font-size: 1.1rem;
+            text-decoration: line-through;
+            color: var(--color-text-muted);
+        }
+
+        /* Discount Grid */
+        .discount-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px 20px;
+            margin-bottom: 60px;
+        }
+
+        /* Highlight Book Card Overrides for Deals */
+        .deals-card .badge-discount {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            background-color: var(--color-danger);
+            border: 2px solid var(--color-white);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .deals-card .book-cover {
+            border: 2px solid transparent;
+            transition: all var(--transition-fast);
+        }
+        
+        .deals-card:hover .book-cover {
+            border-color: var(--color-danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .bundle-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .bundle-price-row {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .deals-title {
+                font-size: 2.2rem;
+            }
+            .flash-countdown-item {
+                width: 60px;
+                height: 60px;
+            }
+            .flash-countdown-value {
+                font-size: 1.3rem;
+            }
+            .flash-countdown-label {
+                font-size: 0.65rem;
+            }
+            .bundle-images {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .bundle-img-wrapper {
+                width: 100px;
+            }
+            .discount-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .discount-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Consistent) -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span class="top-bar-text"><i class="fa-solid fa-truck-fast"></i> Free shipping inside Bangladesh on orders over ৳1500!</span>
+                <div class="top-bar-links">
+                    <a href="contact.html">Help Center</a>
+                    <a href="orders.html">Track Order</a>
+                    <div class="currency-selector">
+                        <span>BDT (৳)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="action-label">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">0</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">0</span>
+                    <span class="cart-total" id="headerCartTotal">৳0.00</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="books.html">Books</a></li>
+                    <li class="nav-item"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item active"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                    <li class="nav-item"><a href="about.html">About</a></li>
+                    <li class="nav-item"><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Deals Hero Section -->
+        <section class="deals-hero">
+            <div class="container">
+                <h1 class="deals-title"><i class="fa-solid fa-bolt"></i> Flash Sale</h1>
+                <p class="deals-subtitle">Grab these incredible discounts before time runs out!</p>
+                
+                <div class="flash-countdown" id="dealsCountdown">
+                    <div class="flash-countdown-item">
+                        <span class="flash-countdown-value" id="deal-days">02</span>
+                        <span class="flash-countdown-label">Days</span>
+                    </div>
+                    <div class="flash-countdown-item">
+                        <span class="flash-countdown-value" id="deal-hours">15</span>
+                        <span class="flash-countdown-label">Hours</span>
+                    </div>
+                    <div class="flash-countdown-item">
+                        <span class="flash-countdown-value" id="deal-mins">30</span>
+                        <span class="flash-countdown-label">Mins</span>
+                    </div>
+                    <div class="flash-countdown-item">
+                        <span class="flash-countdown-value" id="deal-secs">45</span>
+                        <span class="flash-countdown-label">Secs</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bundle Offers Section -->
+        <section class="bundle-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Special Bundles</h2>
+                    <p style="color: var(--color-text-muted);">Buy more, save more with our curated book bundles.</p>
+                </div>
+
+                <!-- Bundle 1 -->
+                <div class="bundle-card">
+                    <div class="bundle-images">
+                        <div class="bundle-img-wrapper"><img src="https://images.unsplash.com/photo-1629196914225-ebdd4830113c?auto=format&fit=crop&w=300&q=80" alt="Dune 1"></div>
+                        <span class="bundle-plus">+</span>
+                        <div class="bundle-img-wrapper"><img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=300&q=80" alt="Dune 2"></div>
+                        <span class="bundle-plus">+</span>
+                        <div class="bundle-img-wrapper"><img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=80" alt="Dune 3"></div>
+                    </div>
+                    <div class="bundle-info">
+                        <span class="bundle-tag">Save 35%</span>
+                        <h3 class="bundle-title">The Sci-Fi Masterpiece Box Set</h3>
+                        <p class="bundle-desc">Get the first three books of Frank Herbert's legendary Dune series in one fantastic bundle. Perfect for new readers and collectors.</p>
+                        <div class="bundle-price-row">
+                            <span class="bundle-price">৳ 1,560</span>
+                            <span class="bundle-old-price">৳ 2,400</span>
+                            <button class="btn btn-primary"><i class="fa-solid fa-bag-shopping"></i> Add Bundle to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bundle 2 -->
+                <div class="bundle-card">
+                    <div class="bundle-images">
+                        <div class="bundle-img-wrapper"><img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=300&q=80" alt="Habits"></div>
+                        <span class="bundle-plus">+</span>
+                        <div class="bundle-img-wrapper"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80" alt="Thinking"></div>
+                    </div>
+                    <div class="bundle-info">
+                        <span class="bundle-tag">Buy 1 Get 1 at 50% Off</span>
+                        <h3 class="bundle-title">Mindset & Productivity Duo</h3>
+                        <p class="bundle-desc">Transform your life with Atomic Habits by James Clear and Thinking, Fast and Slow by Daniel Kahneman.</p>
+                        <div class="bundle-price-row">
+                            <span class="bundle-price">৳ 950</span>
+                            <span class="bundle-old-price">৳ 1,250</span>
+                            <button class="btn btn-primary"><i class="fa-solid fa-bag-shopping"></i> Add Bundle to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Up to 50% Off Grid -->
+        <section class="section pt-0">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Up to 50% Off Clearance</h2>
+                    <a href="books.html" class="view-all-link">Shop All Books <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+                <div class="discount-grid">
+                    
+                    <!-- Deal Book 1 -->
+                    <div class="book-card deals-card" data-id="5">
+                        <div class="book-cover">
+                            <div class="badges">
+                                <span class="badge-discount">-40%</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=400&q=80" alt="JavaScript" loading="lazy">
+                            <div class="book-actions">
+                                <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-category">Programming</span>
+                            <h3 class="book-title"><a href="book-details.html?id=5">JavaScript: The Good Parts</a></h3>
+                            <a href="authors.html" class="book-author">Douglas Crockford</a>
+                            <div class="book-rating">
+                                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+                            </div>
+                            <div class="book-price-row">
+                                <div class="price">
+                                    <span class="current-price" style="color: var(--color-danger);">৳ 300</span>
+                                    <span class="old-price">৳ 500</span>
+                                </div>
+                                <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Deal Book 2 -->
+                    <div class="book-card deals-card" data-id="12">
+                        <div class="book-cover">
+                            <div class="badges">
+                                <span class="badge-discount">-50%</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=400&q=80" alt="Sapiens" loading="lazy">
+                            <div class="book-actions">
+                                <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-category">History</span>
+                            <h3 class="book-title"><a href="book-details.html?id=12">Sapiens (Paperback)</a></h3>
+                            <a href="authors.html" class="book-author">Yuval Noah Harari</a>
+                            <div class="book-rating">
+                                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                            </div>
+                            <div class="book-price-row">
+                                <div class="price">
+                                    <span class="current-price" style="color: var(--color-danger);">৳ 375</span>
+                                    <span class="old-price">৳ 750</span>
+                                </div>
+                                <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Deal Book 3 -->
+                    <div class="book-card deals-card" data-id="13">
+                        <div class="book-cover">
+                            <div class="badges">
+                                <span class="badge-discount">-35%</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" alt="To Kill a Mockingbird" loading="lazy">
+                            <div class="book-actions">
+                                <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-category">Classic</span>
+                            <h3 class="book-title"><a href="book-details.html?id=13">To Kill a Mockingbird</a></h3>
+                            <a href="authors.html" class="book-author">Harper Lee</a>
+                            <div class="book-rating">
+                                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            </div>
+                            <div class="book-price-row">
+                                <div class="price">
+                                    <span class="current-price" style="color: var(--color-danger);">৳ 266</span>
+                                    <span class="old-price">৳ 410</span>
+                                </div>
+                                <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Deal Book 4 -->
+                    <div class="book-card deals-card" data-id="14">
+                        <div class="book-cover">
+                            <div class="badges">
+                                <span class="badge-discount">-25%</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1588666309990-d68f08e3d4a6?auto=format&fit=crop&w=400&q=80" alt="1984" loading="lazy">
+                            <div class="book-actions">
+                                <button class="action-btn quick-view-btn"><i class="fa-regular fa-eye"></i></button>
+                                <button class="action-btn add-wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-category">Fiction</span>
+                            <h3 class="book-title"><a href="book-details.html?id=14">1984</a></h3>
+                            <a href="authors.html" class="book-author">George Orwell</a>
+                            <div class="book-rating">
+                                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                            </div>
+                            <div class="book-price-row">
+                                <div class="price">
+                                    <span class="current-price" style="color: var(--color-danger);">৳ 240</span>
+                                    <span class="old-price">৳ 320</span>
+                                </div>
+                                <button class="btn btn-primary add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col brand-col">
+                        <a href="index.html" class="footer-logo">
+                            <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                            <span class="logo-text">NovaBooks</span>
+                        </a>
+                        <p class="footer-desc">Your ultimate destination for books in Bangladesh. We provide a vast collection of fiction, non-fiction, academic, and professional books at the best prices.</p>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 123 Book Avenue, Dhanmondi, Dhaka</li>
+                            <li><i class="fa-solid fa-phone"></i> +880 1712-345678</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 NovaBooks. All rights reserved.</p>
+                    
+                    <!-- CORRECTED FIXED PAYMENT LOGOS -->
+                    <div class="payment-methods">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/BKash_Logo.svg/2560px-BKash_Logo.svg.png" alt="bKash" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="MasterCard" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="footer-payment-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Dedicated Countdown logic for the deals page
+        document.addEventListener('DOMContentLoaded', () => {
+            const dealsCountdown = document.getElementById('dealsCountdown');
+            
+            if (dealsCountdown) {
+                // Set target date to 2 days, 15 hours from now
+                const targetDate = new Date();
+                targetDate.setDate(targetDate.getDate() + 2);
+                targetDate.setHours(targetDate.getHours() + 15);
+                targetDate.setMinutes(targetDate.getMinutes() + 30);
+
+                const dEl = document.getElementById('deal-days');
+                const hEl = document.getElementById('deal-hours');
+                const mEl = document.getElementById('deal-mins');
+                const sEl = document.getElementById('deal-secs');
+
+                const updateFlashTimer = () => {
+                    const now = new Date().getTime();
+                    const distance = targetDate.getTime() - now;
+
+                    if (distance < 0) {
+                        clearInterval(timerInterval);
+                        dealsCountdown.innerHTML = '<div style="font-size: 1.5rem; font-weight: 700; color: var(--color-white);">Flash Sale Ended!</div>';
+                        return;
+                    }
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    dEl.textContent = days < 10 ? '0' + days : days;
+                    hEl.textContent = hours < 10 ? '0' + hours : hours;
+                    mEl.textContent = minutes < 10 ? '0' + minutes : minutes;
+                    sEl.textContent = seconds < 10 ? '0' + seconds : seconds;
+                };
+
+                updateFlashTimer();
+                const timerInterval = setInterval(updateFlashTimer, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

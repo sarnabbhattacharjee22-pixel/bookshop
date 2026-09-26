@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="View and manage your saved books in your NovaBooks Wishlist.">
+    <title>My Wishlist | NovaBooks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Page Specific Styles for Wishlist -->
+    <style>
+        .page-header {
+            background-color: var(--color-bg-light);
+            padding: 40px 0;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .wishlist-count-badge {
+            background-color: var(--color-secondary);
+            color: var(--color-white);
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 2px 12px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-body);
+        }
+
+        /* Wishlist Grid */
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px 20px;
+            margin-bottom: 60px;
+        }
+
+        /* Customize existing book-card for wishlist */
+        .wishlist-card {
+            position: relative;
+        }
+
+        .btn-remove-wishlist {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            background-color: var(--color-white);
+            color: var(--color-danger);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            z-index: 20;
+            transition: all var(--transition-fast);
+            border: 1px solid transparent;
+        }
+
+        .btn-remove-wishlist:hover {
+            background-color: var(--color-danger);
+            color: var(--color-white);
+            border-color: var(--color-danger);
+            transform: scale(1.1);
+        }
+
+        .wishlist-card .add-to-cart-btn {
+            width: 100%; /* Full width button for wishlist items */
+            margin-top: 10px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            height: 40px;
+        }
+        
+        .wishlist-card .book-price-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        /* Empty State */
+        .empty-wishlist-state {
+            display: none; /* Hidden by default */
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--color-bg-light);
+            border-radius: var(--radius-lg);
+            border: 1px dashed var(--color-border);
+            margin-bottom: 60px;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: var(--color-text-muted);
+            opacity: 0.5;
+            margin-bottom: 20px;
+        }
+
+        .empty-wishlist-state h2 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        @media (max-width: 576px) {
+            .wishlist-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .page-title {
+                font-size: 2rem;
+            }
+            .btn-remove-wishlist {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .wishlist-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Consistent) -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span class="top-bar-text"><i class="fa-solid fa-truck-fast"></i> Free shipping inside Bangladesh on orders over ৳1500!</span>
+                <div class="top-bar-links">
+                    <a href="contact.html">Help Center</a>
+                    <a href="orders.html">Track Order</a>
+                    <div class="currency-selector">
+                        <span>BDT (৳)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="logo-text">Nova<span class="highlight">Books</span></span>
+            </a>
+            <div class="header-search">
+                <form action="books.html" class="search-form" id="searchForm">
+                    <select class="search-category" aria-label="Select Category">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                    </select>
+                    <input type="text" placeholder="Search by title, author, or ISBN..." id="searchInput" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="header-actions">
+                <a href="login.html" class="action-btn user-btn" aria-label="Account">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="action-label">Account</span>
+                </a>
+                <a href="wishlist.html" class="action-btn wishlist-btn" aria-label="Wishlist">
+                    <i class="fa-solid fa-heart" style="color: var(--color-secondary);"></i>
+                    <span class="action-label" style="color: var(--color-secondary); font-weight: 600;">Wishlist</span>
+                    <span class="badge" id="wishlistBadge">4</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="action-label">Cart</span>
+                    <span class="badge" id="cartBadge">2</span>
+                    <span class="cart-total" id="headerCartTotal">৳960.00</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Close Menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="books.html">Books</a></li>
+                    <li class="nav-item"><a href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a href="authors.html">Authors</a></li>
+                    <li class="nav-item"><a href="deals.html" class="highlight-link"><i class="fa-solid fa-tag"></i> Hot Deals</a></li>
+                </ul>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1 class="page-title">My Wishlist <span class="wishlist-count-badge" id="pageWishlistCount">4</span></h1>
+                <p style="color: var(--color-text-muted);">Books you have saved for later. Move them to your cart when you are ready to buy.</p>
+            </div>
+        </section>
+
+        <!-- Wishlist Content -->
+        <section class="section pt-0">
+            <div class="container">
+                
+                <!-- Active Grid -->
+                <div class="wishlist-grid" id="wishlistGrid">
+                    
+                    <!-- Item 1 -->
+                    <div class="book-card wishlist-card" data-id="1">
+                        <button class="btn-remove-wishlist remove-btn" aria-label="Remove from wishlist" title="Remove">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                        <div class="book-cover">
+                            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80" alt="The Silent Patient" loading="lazy">
+                            <div class="book-actions">
+                                <button class="action-btn quick-view-btn" aria-label="Quick View"><i class="fa-regular fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-category">Thriller</span>
+                            <h3 class="book-title"><a href="book-details.html?id=1">The Silent Patient</a></h3>
+                            <a href="authors.html" class="book-author">Alex Michaelides</a>
+                            
+                            <div class="book-price-row">
+                                <div class="price">
+                                    <span class="current-price">৳ 510</span>
+                                </div>
+                                <button class="btn btn-primary add-to-cart-btn" onclick="moveToCart(this)">
+                                    <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="book-card wishlist-card" data-id="3">
+                        <button class="btn-remove-wishlist remove-btn" aria-label="Remove from wishlist" title="Remove">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                        <div class="book-cover">
+                            <div class="badges"><span class="badge-discount">-20%</span></div>
+                            <img src="https://images.unsplash.com/photo-1629196914225-ebdd4830113c?auto=format&fit=crop&w=400&q=80" alt="Dune" loading="lazy">
+                            <div class="book-actions">
+                                <button class="action-btn quick-view-btn" aria-label="Quick View"><i class="fa-regular fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-category">Sci-Fi</span>
+                            <h3 class="book-title"><a href="book-details.html?id=3">Dune (Book 1)</a></h3>
+                            <a href="authors.html" class="book-author">Frank Herbert</a>
+                            
+                            <div class="book-price-row">
+                                <div class="price">
+                                    <span class="current-price">৳ 640</span>
+                                    <span class="old-price">৳ 800</span>
+                                </div>
+                                <button class="btn btn-primary add-to-cart-btn" onclick="moveToCart(this)">
+                                    <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="book-card wishlist-card" data-id="5">
+                        <button class="btn-remove-wishlist remove-btn" aria-label="Remove from wishlist" title="Remove">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                        <div class="book-cover">
+                            <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=400&q=80" alt="JavaScript: The Good Parts" loading="lazy">
+                            <div class="book-actions">
+                                <button class="action-btn quick-view-btn" aria-label="Quick View"><i class="fa-regular fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-category">Programming</span>
+                            <h3 class="book-title"><a href="book-details.html?id=5">JavaScript: The Good Parts</a></h3>
+                            <a href="authors.html" class="book-author">Douglas Crockford</a>
+                            
+                            <div class="book-price-row">
+                                <div class="price">
+                                    <span class="current-price">৳ 350</span>
+                                </div>
+                                <button class="btn btn-primary add-to-cart-btn" onclick="moveToCart(this)">
+                                    <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="book-card wishlist-card" data-id="9">
+                        <button class="btn-remove-wishlist remove-btn" aria-label="Remove from wishlist" title="Remove">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                        <div class="book-cover">
+                            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" alt="To Kill a Mockingbird" loading="lazy">
+                            <div class="book-actions">
+                                <button class="action-btn quick-view-btn" aria-label="Quick View"><i class="fa-regular fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-category">Classic</span>
+                            <h3 class="book-title"><a href="book-details.html?id=9">To Kill a Mockingbird</a></h3>
+                            <a href="authors.html" class="book-author">Harper Lee</a>
+                            
+                            <div class="book-price-row">
+                                <div class="price">
+                                    <span class="current-price">৳ 410</span>
+                                </div>
+                                <button class="btn btn-primary add-to-cart-btn" onclick="moveToCart(this)">
+                                    <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-wishlist-state" id="emptyWishlistState">
+                    <div class="empty-icon">
+                        <i class="fa-regular fa-heart"></i>
+                    </div>
+                    <h2>Your wishlist is empty</h2>
+                    <p style="color: var(--color-text-muted); margin-bottom: 30px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                        You haven't saved any books yet. Explore our catalog and click the heart icon to save your favorite books here.
+                    </p>
+                    <a href="books.html" class="btn btn-primary btn-lg">Explore Books</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col brand-col">
+                        <a href="index.html" class="footer-logo">
+                            <span class="logo-icon"><i class="fa-solid fa-book-open"></i></span>
+                            <span class="logo-text">NovaBooks</span>
+                        </a>
+                        <p class="footer-desc">Your ultimate destination for books in Bangladesh.</p>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh</li>
+                            <li><i class="fa-solid fa-phone"></i> +880 1712-345678</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 NovaBooks. All rights reserved.</p>
+                    
+                    <!-- CORRECTED FIXED PAYMENT LOGOS -->
+                    <div class="payment-methods">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/BKash_Logo.svg/2560px-BKash_Logo.svg.png" alt="bKash" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="MasterCard" class="footer-payment-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="footer-payment-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const removeBtns = document.querySelectorAll('.remove-btn');
+            const wishlistGrid = document.getElementById('wishlistGrid');
+            const emptyState = document.getElementById('emptyWishlistState');
+            const headerBadge = document.getElementById('wishlistBadge');
+            const pageBadge = document.getElementById('pageWishlistCount');
+
+            // Handle Item Removal
+            removeBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const card = this.closest('.wishlist-card');
+                    
+                    // Animation before removal
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.9)';
+                    card.style.transition = 'all 0.3s ease';
+
+                    setTimeout(() => {
+                        card.remove();
+                        updateWishlistCount();
+                    }, 300);
+                });
+            });
+
+            // Update Counters and check for empty state
+            function updateWishlistCount() {
+                const remainingItems = document.querySelectorAll('.wishlist-card').length;
+                
+                // Update Badges
+                if(headerBadge) headerBadge.textContent = remainingItems;
+                if(pageBadge) pageBadge.textContent = remainingItems;
+
+                // Toggle Empty State
+                if (remainingItems === 0) {
+                    wishlistGrid.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    if(pageBadge) pageBadge.style.display = 'none'; // Hide badge on page title if 0
+                }
+            }
+        });
+
+        // Simulate moving item to cart
+        function moveToCart(btn) {
+            const card = btn.closest('.wishlist-card');
+            
+            // Change button text temporarily
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Added';
+            btn.classList.replace('btn-primary', 'btn-secondary');
+            
+            // Update header cart count (Simulation)
+            const cartBadge = document.getElementById('cartBadge');
+            if(cartBadge) {
+                let currentCount = parseInt(cartBadge.textContent);
+                cartBadge.textContent = currentCount + 1;
+            }
+
+            // Remove from wishlist after a short delay
+            setTimeout(() => {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.9)';
+                card.style.transition = 'all 0.3s ease';
+
+                setTimeout(() => {
+                    card.remove();
+                    
+                    // Manually trigger the update function logic here to stay self-contained
+                    const remainingItems = document.querySelectorAll('.wishlist-card').length;
+                    const hBadge = document.getElementById('wishlistBadge');
+                    const pBadge = document.getElementById('pageWishlistCount');
+                    
+                    if(hBadge) hBadge.textContent = remainingItems;
+                    if(pBadge) pBadge.textContent = remainingItems;
+                    
+                    if (remainingItems === 0) {
+                        document.getElementById('wishlistGrid').style.display = 'none';
+                        document.getElementById('emptyWishlistState').style.display = 'block';
+                        if(pBadge) pBadge.style.display = 'none';
+                    }
+                }, 300);
+            }, 800);
+        }
+    </script>
+</body>
+</html>
